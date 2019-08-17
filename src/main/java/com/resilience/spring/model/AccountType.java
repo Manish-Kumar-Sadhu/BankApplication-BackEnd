@@ -24,11 +24,8 @@ public class AccountType {
 	
 	@OneToMany
 	@JoinColumn(name = "account_type_id")
-<<<<<<< HEAD
-	Set<Account> accountTypes = new HashSet<>();
-=======
 	Set<Account> accounts = new HashSet<>();
->>>>>>> b0a151db047c4672b1a42bced6cd5df31656d0d8
+
 
 	
 }
