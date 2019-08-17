@@ -8,13 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-<<<<<<< HEAD
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-=======
+
 import javax.persistence.SequenceGenerator;
->>>>>>> b0a151db047c4672b1a42bced6cd5df31656d0d8
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -31,12 +30,11 @@ public class Transaction {
 	@SequenceGenerator(name = "seqt", initialValue = 5000001)
 	@Column
 	private int transaction_id;
-<<<<<<< HEAD
+
 	@ManyToOne
 	@JoinColumn(name = "type")
 	private TransactionType transactiontype;
-=======
->>>>>>> b0a151db047c4672b1a42bced6cd5df31656d0d8
+
 	
 	@Column
 	private int from_acccount_number;
