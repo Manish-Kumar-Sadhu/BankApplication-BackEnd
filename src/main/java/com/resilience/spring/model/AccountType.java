@@ -16,39 +16,14 @@ public class AccountType {
 	
 	@Id
 	@Column
-	private int id;
+	private int account_type_id;
 	
 	@Column
 	private String account_type;
 	
 	@OneToMany
-	@JoinColumn(name = "account_type")
-	Set<Account> accountTypes = new HashSet<>();
+	@JoinColumn(name = "account_type_id")
+	Set<Account> accounts = new HashSet<>();
 
-	public AccountType() {
-		super();
-	}
-
-	public AccountType(int id, String account_type, Set<Account> accountTypes) {
-		super();
-		this.id = id;
-		this.account_type = account_type;
-		this.accountTypes = accountTypes;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public String getAccount_type() {
-		return account_type;
-	}
-
-	public Set<Account> getAccountTypes() {
-		return accountTypes;
-	}
-
-	
-	
 	
 }
