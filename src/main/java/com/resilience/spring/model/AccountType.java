@@ -16,7 +16,7 @@ public class AccountType {
 	
 	@Id
 	@Column
-	private int id;
+	private int account_type_id;
 	
 	@Column
 	
@@ -24,32 +24,11 @@ public class AccountType {
 	
 	@OneToMany
 	@JoinColumn(name = "account_type_id")
+<<<<<<< HEAD
 	Set<Account> accountTypes = new HashSet<>();
+=======
+	Set<Account> accounts = new HashSet<>();
+>>>>>>> b0a151db047c4672b1a42bced6cd5df31656d0d8
 
-	public AccountType() {
-		super();
-	}
-
-	public AccountType(int id, String account_type, Set<Account> accountTypes) {
-		super();
-		this.id = id;
-		this.account_type = account_type;
-		this.accountTypes = accountTypes;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public String getAccount_type() {
-		return account_type;
-	}
-
-	public Set<Account> getAccountTypes() {
-		return accountTypes;
-	}
-
-	
-	
 	
 }
