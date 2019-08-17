@@ -19,10 +19,11 @@ public class AccountType {
 	private int id;
 	
 	@Column
+	
 	private String account_type;
 	
 	@OneToMany
-	@JoinColumn(name = "account_type")
+	@JoinColumn(name = "account_type_id")
 	Set<Account> accountTypes = new HashSet<>();
 
 	public AccountType() {

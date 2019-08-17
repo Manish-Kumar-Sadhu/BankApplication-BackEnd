@@ -1,8 +1,13 @@
 package com.resilience.spring.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -13,8 +18,13 @@ public class TransactionType {
 	@Column
 	private int id;
 	
-	@Column(name = "TRANSACTION_TYPE")
+	@Column
 	private String type;
+	@OneToMany
+	@JoinColumn(name = "type")
+	Set<Transaction> transaction = new HashSet<>();
+	
+	
 	
 	public TransactionType() {
 		
