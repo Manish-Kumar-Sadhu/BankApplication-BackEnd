@@ -44,88 +44,11 @@ public class Account {
 	//private String account_type;
 	
 	@ManyToOne
-	@JoinColumn(name = "account_type_id")
+	@JoinColumn(name = "account_type")
 	//@Column(columnDefinition = "insert=false update=false")
 	private AccountType accountType;
 	
 	@Column
 	private boolean account_status;
 
-	public Account() {
-		super();
-	}
-
-	public Account(int account_no, Customer customer, int balance, Date date, String creation_date,
-			AccountType accountType, boolean account_status) {
-		super();
-		this.account_no = account_no;
-		this.customer = customer;
-		this.balance = balance;
-		this.date = date;
-		this.creation_date = creation_date;
-		this.accountType = accountType;
-		this.account_status = account_status;
-	}
-
-	public int getAccount_no() {
-		return account_no;
-	}
-
-	public void setAccount_no(int account_no) {
-		this.account_no = account_no;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public int getBalance() {
-		return balance;
-	}
-
-	public void setBalance(int balance) {
-		this.balance = balance;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public String getCreation_date() {
-		return creation_date;
-	}
-
-	public void setCreation_date(String creation_date) {
-		this.creation_date = creation_date;
-	}
-
-	public AccountType getAccountType() {
-		return accountType;
-	}
-
-	public void setAccountType(AccountType accountType) {
-		this.accountType = accountType;
-	}
-
-	public boolean isAccount_status() {
-		return account_status;
-	}
-
-	public void setAccount_status(boolean account_status) {
-		this.account_status = account_status;
-	}
-
-	public static SimpleDateFormat getSdf() {
-		return sdf;
-	}
-
-	
 }

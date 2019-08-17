@@ -24,8 +24,8 @@ public class AccountType {
 	
 	@OneToMany
 	@JoinColumn(name = "account_type_id")
-	Set<Account> accounts = new HashSet<>();
 
+	Set<Account> accounts = new HashSet<>();
 
 	
 }
