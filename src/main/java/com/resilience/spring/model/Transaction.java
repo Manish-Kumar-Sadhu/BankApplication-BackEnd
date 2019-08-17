@@ -22,7 +22,7 @@ public class Transaction {
 	private int transaction_id;
 	@Column
     private int from_acccount_number;
-	@Column
+	@Column	
     private int to_accounnt_number;
 	@Column
     private String transaction_type;
