@@ -35,9 +35,14 @@ public class Account {
 	@Transient
 	Date date = new Date();
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy.HH.mm.ss");
+<<<<<<< HEAD
 
 	
 
+=======
+	
+	
+>>>>>>> 1fab102f535c987f2664f2c765321b47e030f896
 	@Column
 	private String creation_date = sdf.format(new Timestamp(date.getTime()));
 	
