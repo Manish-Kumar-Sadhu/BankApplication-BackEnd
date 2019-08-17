@@ -1,6 +1,7 @@
 package com.resilience.spring.model;
 
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,7 +28,8 @@ public class Transaction {
 	@Column
     private String transaction_type;
 	@Column
-    private Date timesstamp;
+    //private Date timesstamp;
+	private String timesstamp = sdf.format(new Timestamp(date.getTime()));
 	
 	public Transaction() {
 		
@@ -57,16 +59,17 @@ public class Transaction {
 	public void setTransaction_type(String transaction_type) {
 		this.transaction_type = transaction_type;
 	}
-	public Date getTimesstamp() {
+	
+	public String getTimesstamp() {
 		return timesstamp;
 	}
-	public void setTimesstamp(Date timesstamp) {
+
+	public void setTimesstamp(String timesstamp) {
 		this.timesstamp = timesstamp;
 	}
-	
-	
+
 	public Transaction(int transaction_id, int from_acccount_number, int to_accounnt_number, String transaction_type,
-			Date timesstamp) {
+			String timesstamp) {
 		super();
 		this.transaction_id = transaction_id;
 		this.from_acccount_number = from_acccount_number;
