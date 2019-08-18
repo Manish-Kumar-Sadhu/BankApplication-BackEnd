@@ -9,8 +9,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+<<<<<<< HEAD
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+
+=======
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+>>>>>>> 1fab102f535c987f2664f2c765321b47e030f896
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -32,6 +40,10 @@ public class Transaction {
 	@ManyToOne
 	@JoinColumn(name = "transactiontype")
 	private TransactionType transactiontype;
+<<<<<<< HEAD
+
+=======
+>>>>>>> 1fab102f535c987f2664f2c765321b47e030f896
 	
 	@Column
 	private int from_acccount_number;
