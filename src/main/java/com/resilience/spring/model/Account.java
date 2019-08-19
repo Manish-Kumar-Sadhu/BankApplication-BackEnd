@@ -35,7 +35,8 @@ public class Account {
 	@Transient
 	Date date = new Date();
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy.HH.mm.ss");
-
+	
+	
 	@Column
 	private String creation_date = sdf.format(new Timestamp(date.getTime()));
 	
@@ -50,6 +51,10 @@ public class Account {
 	@Column
 	private boolean account_status;
 
+	public Account() {
+		super();
+	}
+
 	public Account(int account_no, Customer customer, int balance, Date date, String creation_date,
 			AccountType accountType, boolean account_status) {
 		super();
@@ -61,12 +66,6 @@ public class Account {
 		this.accountType = accountType;
 		this.account_status = account_status;
 	}
-
-	public Account() {
-		super();
-	}
-
-	
 
 	public int getAccount_no() {
 		return account_no;

@@ -23,7 +23,7 @@ public class AccountType {
 	
 	@OneToMany
 	@JoinColumn(name = "account_type_id")
-	Set<Account> accounts = new HashSet<>();
+
 
 	public int getAccount_type_id() {
 		return account_type_id;
@@ -40,6 +40,9 @@ public class AccountType {
 	public void setAccount_type(String account_type) {
 		this.account_type = account_type;
 	}
+
+	Set<Account> accounts = new HashSet<>();
+
 
 	public Set<Account> getAccounts() {
 		return accounts;
