@@ -36,7 +36,7 @@ public class Account {
 	Date date = new Date();
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy.HH.mm.ss");
 	
-
+	
 	@Column
 	private String creation_date = sdf.format(new Timestamp(date.getTime()));
 	
@@ -44,12 +44,16 @@ public class Account {
 	//private String account_type;
 	
 	@ManyToOne
-	@JoinColumn(name = "account_type")
+	@JoinColumn(name = "account_type_id")
 	//@Column(columnDefinition = "insert=false update=false")
 	private AccountType accountType;
 	
 	@Column
 	private boolean account_status;
+
+	public Account() {
+		super();
+	}
 
 	public Account(int account_no, Customer customer, int balance, Date date, String creation_date,
 			AccountType accountType, boolean account_status) {
@@ -62,12 +66,6 @@ public class Account {
 		this.accountType = accountType;
 		this.account_status = account_status;
 	}
-
-	public Account() {
-		super();
-	}
-
-	
 
 	public int getAccount_no() {
 		return account_no;
@@ -130,5 +128,4 @@ public class Account {
 	}
 
 	
-
 }
