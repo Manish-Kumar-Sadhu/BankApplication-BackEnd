@@ -46,7 +46,7 @@ public class BankEmployee {
 	@Column
     private int aadhar_card;
 	@Column
-    private int pan_card;
+    private String pan_card;
 	@Column
     private String passport; 
 	@Column
@@ -140,10 +140,10 @@ public class BankEmployee {
 	public void setAadhar_card(int aadhar_card) {
 		this.aadhar_card = aadhar_card;
 	}
-	public int getPan_card() {
+	public String getPan_card() {
 		return pan_card;
 	}
-	public void setPan_card(int pan_card) {
+	public void setPan_card(String pan_card) {
 		this.pan_card = pan_card;
 	}
 	public String getPassport() {
@@ -180,7 +180,7 @@ public class BankEmployee {
 
 	public BankEmployee(int employee_id, String first_name, String last_name, String email, int mobile_no,
 			String house_no, String street, String district, String state, String created_date, String password,
-			int aadhar_card, int pan_card, String passport, Date job_start_date, Date job_end_date,
+			int aadhar_card, String pan_card, String passport, Date job_start_date, Date job_end_date,
 			Boolean employee_status, String employee_designation) {
 		super();
 		this.employee_id = employee_id;
