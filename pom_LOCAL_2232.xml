@@ -45,10 +45,6 @@
 			<scope>test</scope>
 		</dependency>
 		
-<<<<<<< HEAD
-=======
-		
->>>>>>> 84afe384bc143ba211a17ce499549400b1a8af17
 	</dependencies>
 
 	<build>
