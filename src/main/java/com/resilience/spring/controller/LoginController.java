@@ -1,7 +1,5 @@
 package com.resilience.spring.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.resilience.spring.model.BankEmployee;
 import com.resilience.spring.model.Customer;
 import com.resilience.spring.model.Login;
 import com.resilience.spring.repository.BankEmployeeRepository;
@@ -25,8 +24,6 @@ public class LoginController {
 	@Autowired
 	BankEmployeeRepository ber;
 	
-	
-	//, consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.TEXT_PLAIN_VALUE)
 	@PostMapping(path="/login", 
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,7 +36,7 @@ public class LoginController {
 			String mail=cust.getEmail();
 			String pass=cust.getPassword();
 			
-			if (mail.equals(log.getEmail())&& pass.equals(log.getPassword()))
+			if (mail.equals(log.getEmail()) && pass.equals(log.getPassword()))
 			{
 				return ResponseEntity.ok(cust);
 			}
@@ -48,6 +45,22 @@ public class LoginController {
 				return ResponseEntity.status(404).build();
 			}
 		}
-		return null;
+		else if(check.equals("employee"))
+		{
+			BankEmployee emp = ber.findByEmail(log.getEmail());
+			String mail=emp.getEmail();
+			String pass=emp.getPassword();
+			
+			if (mail.equals(log.getEmail()) && pass.equals(log.getPassword()))
+			{
+				return ResponseEntity.ok(emp);
+			}
+			else
+			{
+				return ResponseEntity.status(404).build();
+			}
+		}
+		else
+			return ResponseEntity.status(404).build();
 	}
 }

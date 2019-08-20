@@ -42,6 +42,9 @@ public class Customer {
 	private String password;
 	
 	@Column
+	private String customer_status;
+	
+	@Column
 	private String first_name;
 	
 	@Column
@@ -93,12 +96,14 @@ public class Customer {
 	}
 
 
-	public Customer(int customer_id, String password, String first_name, String last_name, String email, long mobile_no,
-			String house_no, String street, String district, String state, Date creation_date, int aadhaar_card,
-			int pan_card, String passport) {
+	public Customer(int customer_id, Set<Account> accounts, String password, String customer_status, String first_name,
+			String last_name, String email, long mobile_no, String house_no, String street, String district,
+			String state, Date creation_date, int aadhaar_card, int pan_card, String passport) {
 		super();
 		this.customer_id = customer_id;
+		this.accounts = accounts;
 		this.password = password;
+		this.customer_status = customer_status;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.email = email;
@@ -112,6 +117,9 @@ public class Customer {
 		this.pan_card = pan_card;
 		this.passport = passport;
 	}
+
+
+
 
 
 	public int getCustomer_id() {
@@ -251,6 +259,26 @@ public class Customer {
 
 	public void setPassport(String passport) {
 		this.passport = passport;
+	}
+
+
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
+
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
+	}
+
+
+	public String getCustomer_status() {
+		return customer_status;
+	}
+
+
+	public void setCustomer_status(String customer_status) {
+		this.customer_status = customer_status;
 	}
 	
 	

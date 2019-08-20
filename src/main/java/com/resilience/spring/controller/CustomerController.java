@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +42,7 @@ public class CustomerController {
 	@PostMapping(path="/save", 
 			produces = {org.springframework.http.MediaType.TEXT_PLAIN_VALUE},
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> saveEmp(@RequestBody Customer customer)
+	public ResponseEntity<String> saveCustomer(@RequestBody Customer customer)
 	{
 		if(cr.existsById(customer.getCustomer_id()))
 		{
@@ -58,5 +60,37 @@ public class CustomerController {
 		return ResponseEntity.ok(cr.findAll());
 	}
 	
+	@PutMapping(path="/update",
+			produces = {org.springframework.http.MediaType.APPLICATION_JSON_VALUE},
+			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Optional<Customer>> updateCustomer(@RequestBody Customer customer)
+	{
+		Optional<Customer> currentcustomer=cr.findById(customer.getCustomer_id());
+		currentcustomer.get().setDistrict(customer.getDistrict());
+		currentcustomer.get().setEmail(customer.getEmail());
+		currentcustomer.get().setHouse_no(customer.getHouse_no());
+		currentcustomer.get().setPassword(customer.getPassword());
+		currentcustomer.get().setMobile_no(customer.getMobile_no());
+		currentcustomer.get().setState(customer.getState());
+		currentcustomer.get().setStreet(customer.getStreet());
+		
+		return ResponseEntity.ok(currentcustomer);
+	}
 	
+	@DeleteMapping(path="/delete", 
+			produces = {org.springframework.http.MediaType.TEXT_PLAIN_VALUE},
+			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> deleteCustomer(@RequestBody Customer customer)
+	{
+		if(cr.existsById(customer.getCustomer_id()))
+		{
+			Optional<Customer> currentcustomer=cr.findById(customer.getCustomer_id());
+			currentcustomer.get().setCustomer_status("inactive");
+			return ResponseEntity.ok("Customer deleted with id "+ customer.getCustomer_id());
+		}
+		else
+		{
+			return ResponseEntity.ok("Customer does not exist with id "+ customer.getCustomer_id());
+		}
+	}
 }
