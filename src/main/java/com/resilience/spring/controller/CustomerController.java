@@ -57,4 +57,6 @@ public class CustomerController {
 	public ResponseEntity<List<Customer>> getCustomerList(){
 		return ResponseEntity.ok(cr.findAll());
 	}
+	
+	
 }
