@@ -25,7 +25,7 @@ public class CustomerController {
 	CustomerRepository cr;
 	
 	@GetMapping(path="/find/{id}",
-			produces = {org.springframework.http.MediaType.APPLICATION_JSON_VALUE})
+			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity findCustomer(@PathVariable("id")int id)
 	{
 		Optional<Customer> o =cr.findById(id);
@@ -40,7 +40,7 @@ public class CustomerController {
 	}
 	
 	@PostMapping(path="/save", 
-			produces = {org.springframework.http.MediaType.TEXT_PLAIN_VALUE},
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> saveCustomer(@RequestBody Customer customer)
 	{
@@ -61,7 +61,7 @@ public class CustomerController {
 	}
 	
 	@PutMapping(path="/update",
-			produces = {org.springframework.http.MediaType.APPLICATION_JSON_VALUE},
+			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE,
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Optional<Customer>> updateCustomer(@RequestBody Customer customer)
 	{
@@ -78,7 +78,7 @@ public class CustomerController {
 	}
 	
 	@DeleteMapping(path="/delete", 
-			produces = {org.springframework.http.MediaType.TEXT_PLAIN_VALUE},
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteCustomer(@RequestBody Customer customer)
 	{
