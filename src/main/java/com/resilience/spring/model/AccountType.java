@@ -10,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table
 public class AccountType {
@@ -25,12 +23,7 @@ public class AccountType {
 	
 	@OneToMany
 	@JoinColumn(name = "account_type_id")
-	@JsonIgnore
-	Set<Account> accounts = new HashSet<>();
 
-	public AccountType() {
-		
-	}
 
 	public int getAccount_type_id() {
 		return account_type_id;
@@ -48,6 +41,9 @@ public class AccountType {
 		this.account_type = account_type;
 	}
 
+	Set<Account> accounts = new HashSet<>();
+
+
 	public Set<Account> getAccounts() {
 		return accounts;
 	}
@@ -62,7 +58,7 @@ public class AccountType {
 		this.account_type = account_type;
 		this.accounts = accounts;
 	}
-	
+
 	
 	
 }

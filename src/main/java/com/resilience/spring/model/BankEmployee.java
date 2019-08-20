@@ -59,9 +59,8 @@ public class BankEmployee {
 	private String state;
 
 	@Column
-<<<<<<< HEAD
     private String pan_card;
-=======
+
 	//Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	//private String creation_date = sdf.format(new Date(cal.getTimeInMillis()));
     private Date creation_date = new Date(cal.getTimeInMillis());
@@ -70,15 +69,13 @@ public class BankEmployee {
 //	// private Date created_date;
 //	private String created_date = sdf.format(new Timestamp(date.getTime()));
 
->>>>>>> 84afe384bc143ba211a17ce499549400b1a8af17
 	@Column
 	private String password;
 
 	@Column(unique = true)
 	private int aadhar_card;
 
-	@Column(unique = true)
-	private int pan_card;
+
 
 	@Column(unique = true)
 	private String passport;
@@ -96,7 +93,23 @@ public class BankEmployee {
 	private String employee_designation;
 
 	public BankEmployee() {
-		super();
+		
+	}
+
+	public SimpleDateFormat getSdf() {
+		return sdf;
+	}
+
+	public void setSdf(SimpleDateFormat sdf) {
+		this.sdf = sdf;
+	}
+
+	public Calendar getCal() {
+		return cal;
+	}
+
+	public void setCal(Calendar cal) {
+		this.cal = cal;
 	}
 
 	public int getEmployee_id() {
@@ -171,6 +184,14 @@ public class BankEmployee {
 		this.state = state;
 	}
 
+	public String getPan_card() {
+		return pan_card;
+	}
+
+	public void setPan_card(String pan_card) {
+		this.pan_card = pan_card;
+	}
+
 	public Date getCreation_date() {
 		return creation_date;
 	}
@@ -193,21 +214,6 @@ public class BankEmployee {
 
 	public void setAadhar_card(int aadhar_card) {
 		this.aadhar_card = aadhar_card;
-	}
-<<<<<<< HEAD
-	public String getPan_card() {
-		return pan_card;
-	}
-	public void setPan_card(String pan_card) {
-=======
-
-	public int getPan_card() {
-		return pan_card;
-	}
-
-	public void setPan_card(int pan_card) {
->>>>>>> 84afe384bc143ba211a17ce499549400b1a8af17
-		this.pan_card = pan_card;
 	}
 
 	public String getPassport() {
@@ -250,16 +256,13 @@ public class BankEmployee {
 		this.employee_designation = employee_designation;
 	}
 
-	public BankEmployee(int employee_id, String first_name, String last_name, String email, int mobile_no,
-<<<<<<< HEAD
-			String house_no, String street, String district, String state, String created_date, String password,
-			int aadhar_card, String pan_card, String passport, Date job_start_date, Date job_end_date,
-=======
-			String house_no, String street, String district, String state, Date creation_date, String password,
-			int aadhar_card, int pan_card, String passport, Date job_start_date, Date job_end_date,
->>>>>>> 84afe384bc143ba211a17ce499549400b1a8af17
-			Boolean employee_status, String employee_designation) {
+	public BankEmployee(SimpleDateFormat sdf, Calendar cal, int employee_id, String first_name, String last_name,
+			String email, int mobile_no, String house_no, String street, String district, String state, String pan_card,
+			Date creation_date, String password, int aadhar_card, String passport, Date job_start_date,
+			Date job_end_date, Boolean employee_status, String employee_designation) {
 		super();
+		this.sdf = sdf;
+		this.cal = cal;
 		this.employee_id = employee_id;
 		this.first_name = first_name;
 		this.last_name = last_name;
@@ -269,16 +272,18 @@ public class BankEmployee {
 		this.street = street;
 		this.district = district;
 		this.state = state;
+		this.pan_card = pan_card;
 		this.creation_date = creation_date;
 		this.password = password;
 		this.aadhar_card = aadhar_card;
-		this.pan_card = pan_card;
 		this.passport = passport;
 		this.job_start_date = job_start_date;
 		this.job_end_date = job_end_date;
 		this.employee_status = employee_status;
 		this.employee_designation = employee_designation;
 	}
-
+	
+	
+	
 
 }
