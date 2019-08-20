@@ -1,5 +1,7 @@
 package com.resilience.spring.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +25,21 @@ public class LoginController {
 	@Autowired
 	BankEmployeeRepository ber;
 	
-	@PostMapping(path="/login", consumes = MediaType.APPLICATION_JSON_VALUE,
+	
+	//, consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.TEXT_PLAIN_VALUE)
+	@PostMapping(path="/login", 
+			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Customer> login(@RequestBody Login log)
+	public ResponseEntity login(@RequestBody Login log)
 	{
 		String check = log.getType();
-		if (check == "customer")
+		if (check.equals("customer"))
 		{
-			Customer cust = cr.findByEmail();
+			Customer cust = cr.findByEmail(log.getEmail());
 			String mail=cust.getEmail();
 			String pass=cust.getPassword();
-			if (mail == log.getEmail() && pass ==log.getPassword())
+			
+			if (mail.equals(log.getEmail())&& pass.equals(log.getPassword()))
 			{
 				return ResponseEntity.ok(cust);
 			}
@@ -41,10 +47,6 @@ public class LoginController {
 			{
 				return ResponseEntity.status(404).build();
 			}
-		}
-		else
-		{
-			
 		}
 		return null;
 	}
