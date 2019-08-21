@@ -1,7 +1,6 @@
 package com.resilience.spring.model;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -13,36 +12,42 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
 public class BankEmployee {
-	
+
 	@Transient
 	@JsonIgnore
 	SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-	
+
 	@Transient
 	@JsonIgnore
 	Calendar cal = Calendar.getInstance();
-	
+
+	@NotNull
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqb")
 	@SequenceGenerator(name = "seqb", initialValue = 3000001)
 	@Column
 	private int employee_id;
 
+	@NotNull
 	@Column
 	private String first_name;
 
+	@NotNull
 	@Column
 	private String last_name;
 
+	@NotNull
 	@Column(unique = true)
 	private String email;
 
+	@NotNull
 	@Column(unique = true)
 	private int mobile_no;
 
@@ -58,58 +63,70 @@ public class BankEmployee {
 	@Column
 	private String state;
 
+	@NotNull
 	@Column
-    private String pan_card;
+	private String pan_card;
 
-	//Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-	//private String creation_date = sdf.format(new Date(cal.getTimeInMillis()));
-    private Date creation_date = new Date(cal.getTimeInMillis());
-	
+	// Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	// private String creation_date = sdf.format(new Date(cal.getTimeInMillis()));
+	@NotNull
+	@Column
+	private Date creation_date = new Date(cal.getTimeInMillis());
+
 //	@Column
 //	// private Date created_date;
 //	private String created_date = sdf.format(new Timestamp(date.getTime()));
 
+	@NotNull
 	@Column
 	private String password;
 
+	@NotNull
 	@Column(unique = true)
 	private int aadhar_card;
-
-
 
 	@Column(unique = true)
 	private String passport;
 
+	@NotNull
 	@Column
-	private Date job_start_date;
+	private Date job_start_date = new Date(cal.getTimeInMillis());
 
+	@NotNull
 	@Column
-	private Date job_end_date;
+	private int employee_status;
 
-	@Column
-	private Boolean employee_status;
-
-	@Column
-	private String employee_designation;
+	@Column(columnDefinition = "varchar(255) default 'EMP'")
+	@NotNull
+	private String employee_role;
 
 	public BankEmployee() {
-		
+		super();
 	}
 
-	public SimpleDateFormat getSdf() {
-		return sdf;
-	}
-
-	public void setSdf(SimpleDateFormat sdf) {
-		this.sdf = sdf;
-	}
-
-	public Calendar getCal() {
-		return cal;
-	}
-
-	public void setCal(Calendar cal) {
-		this.cal = cal;
+	public BankEmployee(@NotNull int employee_id, @NotNull String first_name, @NotNull String last_name,
+			@NotNull String email, @NotNull int mobile_no, String house_no, String street, String district,
+			String state, @NotNull String pan_card, @NotNull Date creation_date, @NotNull String password,
+			@NotNull int aadhar_card, String passport, @NotNull Date job_start_date, @NotNull short employee_status,
+			@NotNull String employee_role) {
+		super();
+		this.employee_id = employee_id;
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.email = email;
+		this.mobile_no = mobile_no;
+		this.house_no = house_no;
+		this.street = street;
+		this.district = district;
+		this.state = state;
+		this.pan_card = pan_card;
+		this.creation_date = creation_date;
+		this.password = password;
+		this.aadhar_card = aadhar_card;
+		this.passport = passport;
+		this.job_start_date = job_start_date;
+		this.employee_status = employee_status;
+		this.employee_role = employee_role;
 	}
 
 	public int getEmployee_id() {
@@ -232,58 +249,20 @@ public class BankEmployee {
 		this.job_start_date = job_start_date;
 	}
 
-	public Date getJob_end_date() {
-		return job_end_date;
-	}
-
-	public void setJob_end_date(Date job_end_date) {
-		this.job_end_date = job_end_date;
-	}
-
-	public Boolean getEmployee_status() {
+	public int getEmployee_status() {
 		return employee_status;
 	}
 
-	public void setEmployee_status(Boolean employee_status) {
+	public void setEmployee_status(short employee_status) {
 		this.employee_status = employee_status;
 	}
 
-	public String getEmployee_designation() {
-		return employee_designation;
+	public String getEmployee_role() {
+		return employee_role;
 	}
 
-	public void setEmployee_designation(String employee_designation) {
-		this.employee_designation = employee_designation;
+	public void setEmployee_role(String employee_designation) {
+		this.employee_role = employee_designation;
 	}
-
-	public BankEmployee(SimpleDateFormat sdf, Calendar cal, int employee_id, String first_name, String last_name,
-			String email, int mobile_no, String house_no, String street, String district, String state, String pan_card,
-			Date creation_date, String password, int aadhar_card, String passport, Date job_start_date,
-			Date job_end_date, Boolean employee_status, String employee_designation) {
-		super();
-		this.sdf = sdf;
-		this.cal = cal;
-		this.employee_id = employee_id;
-		this.first_name = first_name;
-		this.last_name = last_name;
-		this.email = email;
-		this.mobile_no = mobile_no;
-		this.house_no = house_no;
-		this.street = street;
-		this.district = district;
-		this.state = state;
-		this.pan_card = pan_card;
-		this.creation_date = creation_date;
-		this.password = password;
-		this.aadhar_card = aadhar_card;
-		this.passport = passport;
-		this.job_start_date = job_start_date;
-		this.job_end_date = job_end_date;
-		this.employee_status = employee_status;
-		this.employee_designation = employee_designation;
-	}
-	
-	
-	
 
 }

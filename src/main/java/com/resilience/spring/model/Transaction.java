@@ -1,7 +1,7 @@
 package com.resilience.spring.model;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,15 +14,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
 public class Transaction {
-	
-	@Transient
-	Date date = new Date();
-	private static final SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy.HH.mm.ss");
 
+	@Transient
+	@JsonIgnore
+	SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+
+	@Transient
+	@JsonIgnore
+	Calendar cal = Calendar.getInstance();
+
+	@NotNull
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqt")
 	@SequenceGenerator(name = "seqt", initialValue = 5000001)
@@ -32,19 +40,34 @@ public class Transaction {
 	@ManyToOne
 	@JoinColumn(name = "transactiontype")
 	private TransactionType transactiontype;
-	
+
+	@NotNull
 	@Column
 	private int from_acccount_number;
+
 	@Column
 	private int to_accounnt_number;
+
+//	@NotNull
+//	@Column
+//	private String transaction_type;
+
+	@NotNull
 	@Column
-	private String transaction_type;
-	@Column
-	// private Date timesstamp;
-	private String timesstamp = sdf.format(new Timestamp(date.getTime()));
+	private Date creation_date = new Date(cal.getTimeInMillis());
 
 	public Transaction() {
+		super();
+	}
 
+	public Transaction(@NotNull int transaction_id, TransactionType transactiontype, @NotNull int from_acccount_number,
+			int to_accounnt_number, @NotNull Date creation_date) {
+		super();
+		this.transaction_id = transaction_id;
+		this.transactiontype = transactiontype;
+		this.from_acccount_number = from_acccount_number;
+		this.to_accounnt_number = to_accounnt_number;
+		this.creation_date = creation_date;
 	}
 
 	public int getTransaction_id() {
@@ -53,6 +76,14 @@ public class Transaction {
 
 	public void setTransaction_id(int transaction_id) {
 		this.transaction_id = transaction_id;
+	}
+
+	public TransactionType getTransactiontype() {
+		return transactiontype;
+	}
+
+	public void setTransactiontype(TransactionType transactiontype) {
+		this.transactiontype = transactiontype;
 	}
 
 	public int getFrom_acccount_number() {
@@ -71,30 +102,12 @@ public class Transaction {
 		this.to_accounnt_number = to_accounnt_number;
 	}
 
-	public String getTransaction_type() {
-		return transaction_type;
+	public Date getCreation_date() {
+		return creation_date;
 	}
 
-	public void setTransaction_type(String transaction_type) {
-		this.transaction_type = transaction_type;
-	}
-
-	public String getTimesstamp() {
-		return timesstamp;
-	}
-
-	public void setTimesstamp(String timesstamp) {
-		this.timesstamp = timesstamp;
-	}
-
-	public Transaction(int transaction_id, int from_acccount_number, int to_accounnt_number, String transaction_type,
-			String timesstamp) {
-		super();
-		this.transaction_id = transaction_id;
-		this.from_acccount_number = from_acccount_number;
-		this.to_accounnt_number = to_accounnt_number;
-		this.transaction_type = transaction_type;
-		this.timesstamp = timesstamp;
+	public void setCreation_date(Date creation_date) {
+		this.creation_date = creation_date;
 	}
 
 }

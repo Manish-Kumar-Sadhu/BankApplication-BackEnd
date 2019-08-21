@@ -90,7 +90,7 @@ public class CustomerController {
 		if(cr.existsById(customer.getCustomer_id()))
 		{
 			Optional<Customer> currentcustomer=cr.findById(customer.getCustomer_id());
-			currentcustomer.get().setCustomer_status("inactive");
+			currentcustomer.get().setCustomer_status((short) 0);
 			return ResponseEntity.ok("Customer deleted with id "+ customer.getCustomer_id());
 		}
 		else
@@ -99,16 +99,16 @@ public class CustomerController {
 		}
 	}
 	
-	@GetMapping(path = "/accounts/{id}" , 
-			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
-			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<List<Account>> getCustomerAccounts(@PathVariable("id")  int id)
-		{
-			if(cr.findById(id)!=null) {
-				return ResponseEntity.ok(accountRepository.findAccountsByCustomerId(id));
-			} else {
-				return ResponseEntity.status(404).build();
-			}
-			
-		}
+//	@GetMapping(path = "/accounts/{id}" , 
+//			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
+//			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+//		public ResponseEntity<List<Account>> getCustomerAccounts(@PathVariable("id")  int id)
+//		{
+//			if(cr.findById(id)!=null) {
+//				return ResponseEntity.ok(accountRepository.findAccountsByCustomerId(id));
+//			} else {
+//				return ResponseEntity.status(404).build();
+//			}
+//			
+//		}
 }

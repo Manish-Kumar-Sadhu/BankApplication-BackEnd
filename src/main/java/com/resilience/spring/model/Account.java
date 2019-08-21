@@ -1,7 +1,7 @@
 package com.resilience.spring.model;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Table
 @Entity
@@ -23,32 +26,99 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqa")
 	@SequenceGenerator(name = "seqa", initialValue = 9000001)
 	@Column
+	@NotNull
 	private int account_no;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
-	@Column
-	private int balance = 10000;
+	@Column(columnDefinition = "integer default 10000")
+	@NotNull
+	private int balance;
 
 	@Transient
-	Date date = new Date();
-	private static final SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy.HH.mm.ss");
-	
-	
+	@JsonIgnore
+	SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+
+	@Transient
+	@JsonIgnore
+	Calendar cal = Calendar.getInstance();
+
+	@NotNull
 	@Column
-	private String creation_date = sdf.format(new Timestamp(date.getTime()));
-	
-	//@Column
-	//private String account_type;
-	
+	private Date creation_date = new Date(cal.getTimeInMillis());
+
 	@ManyToOne
 	@JoinColumn(name = "account_type_id")
-	//@Column(columnDefinition = "insert=false update=false")
 	private AccountType accountType;
-	
-	@Column
-	private short account_status = 0;
+
+	@NotNull
+	@Column(columnDefinition = "integer default 0")
+	private int account_status;
+
+	public Account() {
+		super();
+	}
+
+	public Account(@NotNull int account_no, @NotNull Customer customer, @NotNull int balance,
+			@NotNull Date creation_date, AccountType accountType, @NotNull short account_status) {
+		super();
+		this.account_no = account_no;
+		this.customer = customer;
+		this.balance = balance;
+		this.creation_date = creation_date;
+		this.accountType = accountType;
+		this.account_status = account_status;
+	}
+
+	public int getAccount_no() {
+		return account_no;
+	}
+
+	public void setAccount_no(int account_no) {
+		this.account_no = account_no;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public int getBalance() {
+		return balance;
+	}
+
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
+
+	public Date getCreation_date() {
+		return creation_date;
+	}
+
+	public void setCreation_date(Date creation_date) {
+		this.creation_date = creation_date;
+	}
+
+	public AccountType getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
+	}
+
+	public int getAccount_status() {
+		return account_status;
+	}
+
+	public void setAccount_status(int account_status) {
+		this.account_status = account_status;
+	}
 
 }

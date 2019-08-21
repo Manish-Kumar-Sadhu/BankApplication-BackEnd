@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -11,23 +12,27 @@ public class Bank {
 
 	@Id
 	@Column
+	@NotNull
 	private int bank_id;
-	
+
 	@Column
+	@NotNull
 	private String bank_name;
-	
+
+	@NotNull
 	@Column
 	private String ifsc_code;
-	
+
 	@Column
 	private String address;
-	
+
 	@Column
 	private String district;
-	
+
 	@Column
 	private String state;
-	
+
+	@NotNull
 	@Column
 	private int pincode;
 
@@ -51,41 +56,28 @@ public class Bank {
 		return bank_id;
 	}
 
-
 	public String getBank_name() {
 		return bank_name;
 	}
-
 
 	public String getIfsc_code() {
 		return ifsc_code;
 	}
 
-
-
 	public String getAddress() {
 		return address;
 	}
-
-
 
 	public String getDistrict() {
 		return district;
 	}
 
-
-
 	public String getState() {
 		return state;
 	}
-
-
 
 	public int getPincode() {
 		return pincode;
 	}
 
-
-	
-	
 }
