@@ -99,7 +99,7 @@ public class Customer {
 
 	@NotNull
 	@Column(columnDefinition = "varchar(255) default 'CUST'")
-	private String role;
+	private String role="CUST";
 
 	public Customer() {
 		super();

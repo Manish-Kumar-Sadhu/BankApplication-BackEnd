@@ -38,8 +38,8 @@ public class Transaction {
 	private int transaction_id;
 
 	@ManyToOne
-	@JoinColumn(name = "transactiontype")
-	private TransactionType transactiontype;
+	@JoinColumn(name = "transaction_type")
+	private TransactionType transaction_type;
 
 	@NotNull
 	@Column
@@ -60,11 +60,11 @@ public class Transaction {
 		super();
 	}
 
-	public Transaction(@NotNull int transaction_id, TransactionType transactiontype, @NotNull int from_acccount_number,
+	public Transaction(@NotNull int transaction_id, TransactionType transaction_type, @NotNull int from_acccount_number,
 			int to_accounnt_number, @NotNull Date creation_date) {
 		super();
 		this.transaction_id = transaction_id;
-		this.transactiontype = transactiontype;
+		this.transaction_type = transaction_type;
 		this.from_acccount_number = from_acccount_number;
 		this.to_accounnt_number = to_accounnt_number;
 		this.creation_date = creation_date;
@@ -78,12 +78,12 @@ public class Transaction {
 		this.transaction_id = transaction_id;
 	}
 
-	public TransactionType getTransactiontype() {
-		return transactiontype;
+	public TransactionType getTransaction_type() {
+		return transaction_type;
 	}
 
-	public void setTransactiontype(TransactionType transactiontype) {
-		this.transactiontype = transactiontype;
+	public void setTransactiontype(TransactionType transaction_type) {
+		this.transaction_type = transaction_type;
 	}
 
 	public int getFrom_acccount_number() {

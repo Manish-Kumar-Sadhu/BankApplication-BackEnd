@@ -21,7 +21,7 @@ public class TransactionType {
 	private int id;
 
 	@NotNull
-	@Column
+	@Column(unique = true)
 	private String transaction_type;
 
 	@OneToMany

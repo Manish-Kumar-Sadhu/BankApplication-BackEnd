@@ -28,7 +28,9 @@ public class BankEmployeeController {
 		return ResponseEntity.ok(bankEmployeeRepository.findAll());
 	}
 
-	@PostMapping(path = "/save", produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/save", 
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, 
+			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> saveEmployee(@RequestBody BankEmployee bankEmployee) {
 		boolean empExists = bankEmployeeRepository.findByEmail(bankEmployee.getEmail()) != null ? true : false;
 		if (!empExists) {
@@ -40,9 +42,11 @@ public class BankEmployeeController {
 		}
 	}
 
-	@PutMapping(path = "/save", produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(path = "/update", 
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, 
+			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Optional<BankEmployee>> updateBankEmployee(@RequestBody BankEmployee bankEmployee) {
-		Optional<BankEmployee> currentEmployee=bankEmployeeRepository.findById(bankEmployee.getEmployee_id());
+		Optional<BankEmployee> currentEmployee = bankEmployeeRepository.findById(bankEmployee.getEmployee_id());
 		currentEmployee.get().setDistrict(bankEmployee.getDistrict());
 		currentEmployee.get().setEmail(bankEmployee.getEmail());
 		currentEmployee.get().setHouse_no(bankEmployee.getHouse_no());
@@ -50,7 +54,7 @@ public class BankEmployeeController {
 		currentEmployee.get().setMobile_no(bankEmployee.getMobile_no());
 		currentEmployee.get().setState(bankEmployee.getState());
 		currentEmployee.get().setStreet(bankEmployee.getStreet());
-		
+
 		return ResponseEntity.ok(currentEmployee);
 	}
 

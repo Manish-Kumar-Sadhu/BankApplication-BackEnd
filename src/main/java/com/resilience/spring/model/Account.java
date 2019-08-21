@@ -3,6 +3,7 @@ package com.resilience.spring.model;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,14 +30,18 @@ public class Account {
 	@NotNull
 	private int account_no;
 
-	@NotNull
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
-
+	
+//	@NotNull
+//	@Column
+//	private int customer_id;
+	
 	@Column(columnDefinition = "integer default 10000")
 	@NotNull
-	private int balance;
+	private int balance=10000;
 
 	@Transient
 	@JsonIgnore
@@ -85,8 +90,8 @@ public class Account {
 		return customer;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCustomer(Customer currentCustomer) {
+		this.customer = currentCustomer;
 	}
 
 	public int getBalance() {
@@ -121,4 +126,13 @@ public class Account {
 		this.account_status = account_status;
 	}
 
+//	public int getCustomer_id() {
+//		return customer_id;
+//	}
+//
+//	public void setCustomer_id(int customer_id) {
+//		this.customer_id = customer_id;
+//	}
+
+	
 }
