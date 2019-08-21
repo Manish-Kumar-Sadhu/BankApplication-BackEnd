@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.resilience.spring.model.Account;
 import com.resilience.spring.model.Customer;
+import com.resilience.spring.repository.AccountRepository;
 import com.resilience.spring.repository.CustomerRepository;
 
 @RestController
@@ -23,6 +25,9 @@ public class CustomerController {
 
 	@Autowired
 	CustomerRepository cr;
+	
+	@Autowired
+	AccountRepository accountRepository;
 	
 	@GetMapping(path="/find/{id}",
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
@@ -93,4 +98,17 @@ public class CustomerController {
 			return ResponseEntity.ok("Customer does not exist with id "+ customer.getCustomer_id());
 		}
 	}
+	
+	@GetMapping(path = "/accounts/{id}" , 
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
+			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+		public ResponseEntity<List<Account>> getCustomerAccounts(@PathVariable("id")  int id)
+		{
+			if(cr.findById(id)!=null) {
+				return ResponseEntity.ok(accountRepository.findAccountsByCustomerId(id));
+			} else {
+				return ResponseEntity.status(404).build();
+			}
+			
+		}
 }

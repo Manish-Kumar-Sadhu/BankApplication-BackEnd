@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.resilience.spring.model.AccountType;
-import com.resilience.spring.repository.AccountTypeRepository;
+import com.resilience.spring.model.Bank;
+import com.resilience.spring.repository.BankRepository;
 
 @RestController
-@RequestMapping("/accountType")
-public class AccountTypeController {
-
-	@Autowired
-	AccountTypeRepository accountTypeRepo;
+@RequestMapping("/bank")
+public class BankController {
 	
-	@GetMapping(path="/list" ,produces="application/json")
-	public ResponseEntity<List<AccountType>> getAccountTypes(){
-		return ResponseEntity.ok(accountTypeRepo.findAll());
+	@Autowired
+	BankRepository bankRepository;
+	
+	@GetMapping(path="/details" ,  produces="application/json")
+	public ResponseEntity<List<Bank>> getBankDetails(){
+		return ResponseEntity.ok(bankRepository.findAll());
 	}
+	
 	
 }

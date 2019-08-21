@@ -25,6 +25,11 @@ public class AccountType {
 	@JoinColumn(name = "account_type_id")
 	Set<Account> accounts = new HashSet<>();
 
+	
+	
+	public AccountType() {
+	}
+
 	public int getAccount_type_id() {
 		return account_type_id;
 	}
