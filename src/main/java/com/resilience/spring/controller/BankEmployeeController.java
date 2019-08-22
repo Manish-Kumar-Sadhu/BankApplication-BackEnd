@@ -34,11 +34,12 @@ public class BankEmployeeController {
 	public ResponseEntity<String> saveEmployee(@RequestBody BankEmployee bankEmployee) {
 		boolean empExists = bankEmployeeRepository.findByEmail(bankEmployee.getEmail()) != null ? true : false;
 		if (!empExists) {
-			return ResponseEntity.ok("Employee exists with mail " + bankEmployee.getEmail());
-		} else {
 			bankEmployeeRepository.save(bankEmployee);
 			return ResponseEntity.ok("Employee saved with mail id " + bankEmployee.getEmail() + " and emp id is :"
 					+ bankEmployee.getEmployee_id());
+			
+		} else {
+			return ResponseEntity.ok("Employee exists with mail " + bankEmployee.getEmail());
 		}
 	}
 

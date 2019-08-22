@@ -9,8 +9,10 @@ import com.resilience.spring.model.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
-	@Query("select c from Customer c where c.email = :email and c.customer_status!='inactive'")
+
+	@Query("select c from Customer c where c.email = :email")
 	public Customer findByEmail(@Param("email") String email);
 	
+
 	
 }

@@ -51,11 +51,13 @@ public class Account {
 	@JsonIgnore
 	Calendar cal = Calendar.getInstance();
 
-	@NotNull
+	
+
 	@Column
 	private Date creation_date = new Date(cal.getTimeInMillis());
 
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "account_type_id")
 	private AccountType accountType;
 

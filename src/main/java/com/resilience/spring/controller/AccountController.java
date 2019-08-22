@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,6 +52,25 @@ public class AccountController {
 	public ResponseEntity<List<Account>> getAllAccounts(){
 		return ResponseEntity.ok(ar.findAll());
 	}
+	
+	@GetMapping(path="/list/{customer_id}" , produces="application/json")
+	public ResponseEntity getAccountsOfCustomer(@PathVariable("customer_id") int customer_id){
+	
+		if(cr.findById(customer_id)!=null) {
+			
+			if(ar.findAccountsByCustomerId(customer_id)!=null) {
+				return ResponseEntity.ok(ar.findAccountsByCustomerId(customer_id)); 
+			} else {
+				return ResponseEntity.ok("No accounts found"); 
+			}
+			
+		} else 
+		{
+			return ResponseEntity.ok("Unauthorisd user");
+		}
+	}
+	
+	
 	
 	@PostMapping(path="/save/{id}", 
 			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,

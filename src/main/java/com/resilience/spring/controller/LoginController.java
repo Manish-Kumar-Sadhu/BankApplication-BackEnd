@@ -45,7 +45,7 @@ public class LoginController {
 				return ResponseEntity.status(404).build();
 			}
 		}
-		else if(check.equals("employee"))
+		else if(check.equals("bank"))
 		{
 			BankEmployee emp = ber.findByEmail(log.getEmail());
 			String mail=emp.getEmail();
