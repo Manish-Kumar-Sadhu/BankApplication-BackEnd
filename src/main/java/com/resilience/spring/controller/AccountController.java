@@ -119,4 +119,13 @@ public class AccountController {
 			return ResponseEntity.ok("Account does not exist with no. "+ account.getAccount_no());
 		}
 	}
+	
+	@PutMapping(path="/activate/{id}",
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> activateAccount(@PathVariable("id") int id)
+	{
+		Optional<Account> currentaccount=ar.findById(id);
+		currentaccount.get().setAccount_status(1);
+		return ResponseEntity.ok("Account status activated");
+	}
 }

@@ -66,20 +66,20 @@ public class CustomerController {
 	}
 	
 	@PutMapping(path="/update",
-			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE,
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Optional<Customer>> updateCustomer(@RequestBody Customer customer)
+	public ResponseEntity<String> updateCustomer(@RequestBody Customer customer)
 	{
-		Optional<Customer> currentcustomer=cr.findById(customer.getCustomer_id());
-		currentcustomer.get().setDistrict(customer.getDistrict());
-		currentcustomer.get().setEmail(customer.getEmail());
-		currentcustomer.get().setHouse_no(customer.getHouse_no());
-		currentcustomer.get().setPassword(customer.getPassword());
-		currentcustomer.get().setMobile_no(customer.getMobile_no());
-		currentcustomer.get().setState(customer.getState());
-		currentcustomer.get().setStreet(customer.getStreet());
-		
-		return ResponseEntity.ok(currentcustomer);
+//		Optional<Customer> currentcustomer=cr.findById(customer.getCustomer_id());
+//		currentcustomer.get().setDistrict(customer.getDistrict());
+//		currentcustomer.get().setEmail(customer.getEmail());
+//		currentcustomer.get().setHouse_no(customer.getHouse_no());
+//		currentcustomer.get().setPassword(customer.getPassword());
+//		currentcustomer.get().setMobile_no(customer.getMobile_no());
+//		currentcustomer.get().setState(customer.getState());
+//		currentcustomer.get().setStreet(customer.getStreet());
+		cr.save(customer);
+		return ResponseEntity.ok("Customer updated with id: "+customer.getCustomer_id());
 	}
 	
 	@DeleteMapping(path="/delete", 
@@ -99,16 +99,13 @@ public class CustomerController {
 		}
 	}
 	
-//	@GetMapping(path = "/accounts/{id}" , 
-//			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
-//			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-//		public ResponseEntity<List<Account>> getCustomerAccounts(@PathVariable("id")  int id)
-//		{
-//			if(cr.findById(id)!=null) {
-//				return ResponseEntity.ok(accountRepository.findAccountsByCustomerId(id));
-//			} else {
-//				return ResponseEntity.status(404).build();
-//			}
-//			
-//		}
+	@PutMapping(path="/activate/{id}",
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> activateCustomer(@PathVariable("id") int id)
+	{
+		Optional<Customer> currentcustomer=cr.findById(id);
+		currentcustomer.get().setCustomer_status(1);
+		return ResponseEntity.ok("Customer status activated");
+	}
+	
 }

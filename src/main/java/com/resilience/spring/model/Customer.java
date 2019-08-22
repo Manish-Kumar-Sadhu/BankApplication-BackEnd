@@ -181,7 +181,7 @@ public class Customer {
 		return customer_status;
 	}
 
-	public void setCustomer_status(short customer_status) {
+	public void setCustomer_status(int customer_status) {
 		this.customer_status = customer_status;
 	}
 
