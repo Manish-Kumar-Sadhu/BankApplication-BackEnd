@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,9 +33,13 @@ public class Customer {
 	@Column
 	private int customer_id;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
 	Set<Account> accounts = new HashSet<>();
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "customer_id")
+	Set<Transaction> transactions = new HashSet<>();
 
 	@NotNull
 	@Column
@@ -88,7 +93,7 @@ public class Customer {
 
 	@NotNull
 	@Column(unique = true)
-	private int aadhaar_card;
+	private long aadhaar_card;
 
 	@NotNull
 	@Column(unique = true)
@@ -99,43 +104,21 @@ public class Customer {
 
 	@NotNull
 	@Column(columnDefinition = "varchar(255) default 'CUST'")
-	private String role="CUST";
+	private String role = "CUST";
 
 	public Customer() {
 		super();
 	}
 
-	public Customer(@NotNull int customer_id, @NotNull String password, @NotNull short customer_status,
-			@NotNull String first_name, @NotNull String last_name, @NotNull String email, @NotNull long mobile_no,
-			String house_no, String street, String district, String state, @NotNull Date creation_date,
-			@NotNull int aadhaar_card, @NotNull String pan_card, String passport, @NotNull String role) {
-		super();
-		this.customer_id = customer_id;
-		this.password = password;
-		this.customer_status = customer_status;
-		this.first_name = first_name;
-		this.last_name = last_name;
-		this.email = email;
-		this.mobile_no = mobile_no;
-		this.house_no = house_no;
-		this.street = street;
-		this.district = district;
-		this.state = state;
-		this.creation_date = creation_date;
-		this.aadhaar_card = aadhaar_card;
-		this.pan_card = pan_card;
-		this.passport = passport;
-		this.role = role;
-	}
-
-	public Customer(@NotNull int customer_id, Set<Account> accounts, @NotNull String password,
-			@NotNull short customer_status, @NotNull String first_name, @NotNull String last_name,
-			@NotNull String email, @NotNull long mobile_no, String house_no, String street, String district,
-			String state, @NotNull Date creation_date, @NotNull int aadhaar_card, @NotNull String pan_card,
-			String passport, @NotNull String role) {
+	public Customer(@NotNull int customer_id, Set<Account> accounts, Set<Transaction> transactions,
+			@NotNull String password, @NotNull int customer_status, @NotNull String first_name,
+			@NotNull String last_name, @NotNull String email, @NotNull long mobile_no, String house_no, String street,
+			String district, String state, @NotNull Date creation_date, @NotNull long aadhaar_card,
+			@NotNull String pan_card, String passport, @NotNull String role) {
 		super();
 		this.customer_id = customer_id;
 		this.accounts = accounts;
+		this.transactions = transactions;
 		this.password = password;
 		this.customer_status = customer_status;
 		this.first_name = first_name;
@@ -257,11 +240,11 @@ public class Customer {
 		this.creation_date = creation_date;
 	}
 
-	public int getAadhaar_card() {
+	public long getAadhaar_card() {
 		return aadhaar_card;
 	}
 
-	public void setAadhaar_card(int aadhaar_card) {
+	public void setAadhaar_card(long aadhaar_card) {
 		this.aadhaar_card = aadhaar_card;
 	}
 
@@ -287,6 +270,14 @@ public class Customer {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public Set<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(Set<Transaction> transactions) {
+		this.transactions = transactions;
 	}
 
 }
