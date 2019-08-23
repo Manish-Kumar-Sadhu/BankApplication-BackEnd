@@ -38,6 +38,11 @@ public class Transaction {
 	private int transaction_id;
 
 	@ManyToOne
+	@JsonIgnore
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
+
+	@ManyToOne
 	@JoinColumn(name = "transaction_type")
 	private TransactionType transaction_type;
 
@@ -48,6 +53,10 @@ public class Transaction {
 	@Column
 	private int to_accounnt_number;
 
+	@NotNull
+	@Column
+	private int amount;
+
 //	@NotNull
 //	@Column
 //	private String transaction_type;
@@ -56,14 +65,18 @@ public class Transaction {
 	@Column
 	private Date creation_date = new Date(cal.getTimeInMillis());
 
+	@Column
+	private String description;
+
 	public Transaction() {
 		super();
 	}
 
-	public Transaction(@NotNull int transaction_id, TransactionType transaction_type, @NotNull int from_acccount_number,
-			int to_accounnt_number, @NotNull Date creation_date) {
+	public Transaction(@NotNull int transaction_id, Customer customer, TransactionType transaction_type,
+			@NotNull int from_acccount_number, int to_accounnt_number, @NotNull Date creation_date) {
 		super();
 		this.transaction_id = transaction_id;
+		this.customer = customer;
 		this.transaction_type = transaction_type;
 		this.from_acccount_number = from_acccount_number;
 		this.to_accounnt_number = to_accounnt_number;
@@ -108,6 +121,34 @@ public class Transaction {
 
 	public void setCreation_date(Date creation_date) {
 		this.creation_date = creation_date;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public void setTransaction_type(TransactionType transaction_type) {
+		this.transaction_type = transaction_type;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
 }
