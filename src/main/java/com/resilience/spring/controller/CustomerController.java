@@ -45,13 +45,16 @@ public class CustomerController {
 	}
 	
 	@PostMapping(path="/save", 
-			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
+			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE,
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> saveCustomer(@RequestBody Customer customer)
 	{
-		if(cr.existsById(customer.getCustomer_id()))
-		{
-			return ResponseEntity.ok("Customer exists with id "+ customer.getCustomer_id());
+//		if(cr.existsById(customer.getCustomer_id()))
+//		{
+//			return ResponseEntity.ok("Customer exists with id "+ customer.getCustomer_id());
+//		}
+		if(cr.findByEmail(customer.getEmail())!=null) {
+			return ResponseEntity.ok("Customer exists with email id "+ customer.getEmail());
 		}
 		else
 		{
@@ -99,6 +102,7 @@ public class CustomerController {
 		}
 	}
 	
+
 	@PutMapping(path="/activate/{id}",
 			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> activateCustomer(@PathVariable("id") int id)
@@ -108,4 +112,6 @@ public class CustomerController {
 		return ResponseEntity.ok("Customer status activated");
 	}
 	
+
 }
+
