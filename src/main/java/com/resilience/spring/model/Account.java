@@ -34,14 +34,14 @@ public class Account {
 	@JsonIgnore
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
-	
+
 //	@NotNull
 //	@Column
 //	private int customer_id;
-	
+
 	@Column(columnDefinition = "integer default 10000")
 	@NotNull
-	private int balance=10000;
+	private int balance = 10000;
 
 	@Transient
 	@JsonIgnore
@@ -50,8 +50,6 @@ public class Account {
 	@Transient
 	@JsonIgnore
 	Calendar cal = Calendar.getInstance();
-
-	
 
 	@Column
 	private Date creation_date = new Date(cal.getTimeInMillis());
@@ -135,5 +133,4 @@ public class Account {
 //		this.customer_id = customer_id;
 //	}
 
-	
 }

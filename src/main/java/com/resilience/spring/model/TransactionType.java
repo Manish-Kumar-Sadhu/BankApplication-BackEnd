@@ -3,13 +3,18 @@ package com.resilience.spring.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table
@@ -24,19 +29,21 @@ public class TransactionType {
 	@Column(unique = true)
 	private String transaction_type;
 
-	@OneToMany
+	@JsonIgnoreProperties("transactions")
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "transaction_type")
-	Set<Transaction> transaction = new HashSet<>();
+	Set<Transaction> transactions = new HashSet<>();
 
 	public TransactionType() {
 		super();
 	}
 
-	public TransactionType(@NotNull int id, @NotNull String transaction_type, Set<Transaction> transaction) {
+	public TransactionType(@NotNull int id, @NotNull String transaction_type, Set<Transaction> transactions) {
 		super();
 		this.id = id;
 		this.transaction_type = transaction_type;
-		this.transaction = transaction;
+		this.transactions = transactions;
 	}
 
 	public TransactionType(@NotNull int id, @NotNull String transaction_type) {
@@ -53,8 +60,8 @@ public class TransactionType {
 		return transaction_type;
 	}
 
-	public Set<Transaction> getTransaction() {
-		return transaction;
+	public Set<Transaction> getTransactions() {
+		return transactions;
 	}
 
 }

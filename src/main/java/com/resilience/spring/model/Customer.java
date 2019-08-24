@@ -21,9 +21,11 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table
+@JsonIgnoreProperties
 public class Customer {
 
 	@NotNull
@@ -33,10 +35,14 @@ public class Customer {
 	@Column
 	private int customer_id;
 
+	@JsonIgnoreProperties("accounts")
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
 	Set<Account> accounts = new HashSet<>();
 
+	@JsonIgnoreProperties("transactions")
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
 	Set<Transaction> transactions = new HashSet<>();
@@ -45,7 +51,7 @@ public class Customer {
 	@Column
 	private String password;
 
-	@NotNull
+
 	@Column(columnDefinition = "integer default 0")
 	private int customer_status;
 
@@ -85,7 +91,7 @@ public class Customer {
 	@JsonIgnore
 	Calendar cal = Calendar.getInstance();
 
-	@NotNull
+
 	@Column
 	// Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	// private String creation_date = sdf.format(new Date(cal.getTimeInMillis()));
@@ -99,10 +105,11 @@ public class Customer {
 	@Column(unique = true)
 	private String pan_card;
 
-	@Column(unique = true)
+	@Column(unique = true, columnDefinition = "varchar(10) default 'NA'")
 	private String passport;
 
-	@NotNull
+
+	@JsonIgnore
 	@Column(columnDefinition = "varchar(255) default 'CUST'")
 	private String role = "CUST";
 
