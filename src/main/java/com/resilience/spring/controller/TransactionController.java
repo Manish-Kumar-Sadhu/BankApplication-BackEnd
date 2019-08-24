@@ -85,8 +85,8 @@ public class TransactionController {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
-	@GetMapping(path="/{customer_id}",
+	//@SuppressWarnings("unchecked")
+	@GetMapping(path="/list/{customer_id}",
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Set<Transaction>> getTransactionsOfCustomer(@PathVariable("customer_id") int customer_id)
 	{

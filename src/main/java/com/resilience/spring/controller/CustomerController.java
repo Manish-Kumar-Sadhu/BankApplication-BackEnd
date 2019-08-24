@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.resilience.spring.model.Account;
+import com.resilience.spring.email.MessageController;
 import com.resilience.spring.model.Customer;
-import com.resilience.spring.repository.AccountRepository;
 import com.resilience.spring.repository.CustomerRepository;
 
 @RestController
@@ -26,50 +25,48 @@ public class CustomerController {
 	@Autowired
 	CustomerRepository cr;
 	
-	@Autowired
-	AccountRepository accountRepository;
+	MessageController mc = new MessageController();
+			
 	
-	@GetMapping(path="/find/{id}",
+
+//	@Autowired
+//	AccountRepository accountRepository;
+
+	@GetMapping(path = "/find/{id}", 
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity findCustomer(@PathVariable("id")int id)
-	{
-		Optional<Customer> o =cr.findById(id);
-		if(o.isPresent())
-		{
+	public ResponseEntity<Customer> findCustomerById(@PathVariable("id") int id) {
+		Optional<Customer> o = cr.findCustomer(id);
+		if (o.isPresent()) {
 			return ResponseEntity.ok(o.get());
-		}
-		else
-		{
+		} else {
 			return ResponseEntity.status(404).build();
 		}
 	}
-	
-	@PostMapping(path="/save", 
-			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
+
+	@PostMapping(path = "/save", 
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, 
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> saveCustomer(@RequestBody Customer customer)
-	{
-		if(cr.existsById(customer.getCustomer_id()))
-		{
-			return ResponseEntity.ok("Customer exists with id "+ customer.getCustomer_id());
-		}
-		else
-		{
+	public ResponseEntity<String> saveCustomer(@RequestBody Customer customer) {
+		if (cr.existsById(customer.getCustomer_id())) {
+			return ResponseEntity.ok("Customer exists with id " + customer.getCustomer_id());
+		} else {
 			cr.save(customer);
-			return ResponseEntity.ok("Customer saved with id "+ customer.getCustomer_id());
+			mc.sendMail("businessbankofindia@gmail.com", "Welcome to Business Bank", 
+					"You have successfully registered with the Business Bank. Your customer id is " + customer.getCustomer_id());
+			return ResponseEntity.ok("Customer saved with id " + customer.getCustomer_id());
 		}
 	}
-	
-	@GetMapping(path="/list",produces="application/json")
-	public ResponseEntity<List<Customer>> getCustomerList(){
+
+	@GetMapping(path = "/list", 
+			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Customer>> getCustomerList() {
 		return ResponseEntity.ok(cr.findAll());
 	}
-	
-	@PutMapping(path="/update",
-			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
+
+	@PutMapping(path = "/update", 
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, 
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> updateCustomer(@RequestBody Customer customer)
-	{
+	public ResponseEntity<String> updateCustomer(@RequestBody Customer customer) {
 //		Optional<Customer> currentcustomer=cr.findById(customer.getCustomer_id());
 //		currentcustomer.get().setDistrict(customer.getDistrict());
 //		currentcustomer.get().setEmail(customer.getEmail());
@@ -79,33 +76,38 @@ public class CustomerController {
 //		currentcustomer.get().setState(customer.getState());
 //		currentcustomer.get().setStreet(customer.getStreet());
 		cr.save(customer);
-		return ResponseEntity.ok("Customer updated with id: "+customer.getCustomer_id());
+		return ResponseEntity.ok("Customer updated with id: " + customer.getCustomer_id());
 	}
-	
-	@DeleteMapping(path="/delete", 
-			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
+
+	@DeleteMapping(path = "/delete/{id}", 
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, 
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> deleteCustomer(@RequestBody Customer customer)
-	{
-		if(cr.existsById(customer.getCustomer_id()))
+	public ResponseEntity<String> deleteCustomer(@PathVariable("id") int id) {
+		
+		if(cr.existsById(id))
 		{
-			Optional<Customer> currentcustomer=cr.findById(customer.getCustomer_id());
-			currentcustomer.get().setCustomer_status((short) 0);
-			return ResponseEntity.ok("Customer deleted with id "+ customer.getCustomer_id());
-		}
-		else
+			Optional<Customer> currentcustomer = cr.findById(id);
+			currentcustomer.get().setCustomer_status(0);
+			return ResponseEntity.ok("Customer deleted with id " + id);
+		} 
+		else 
 		{
-			return ResponseEntity.ok("Customer does not exist with id "+ customer.getCustomer_id());
+			return ResponseEntity.ok("Customer does not exist with id " + id);
 		}
 	}
-	
-	@PutMapping(path="/activate/{id}",
+
+	@PutMapping(path = "/activate/{id}", 
 			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> activateCustomer(@PathVariable("id") int id)
-	{
-		Optional<Customer> currentcustomer=cr.findById(id);
+	public ResponseEntity<String> activateCustomer(@PathVariable("id") int id) {
+		Optional<Customer> currentcustomer = cr.findById(id);
 		currentcustomer.get().setCustomer_status(1);
 		return ResponseEntity.ok("Customer status activated");
 	}
 	
+	@GetMapping(path = "/inactivecustomerlist", 
+			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Customer>> getInactiveCustomerList() {
+		return ResponseEntity.ok(cr.findInactiveCustomers());
+	}
+
 }

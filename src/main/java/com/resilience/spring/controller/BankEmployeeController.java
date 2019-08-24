@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.resilience.spring.model.BankEmployee;
 import com.resilience.spring.model.Customer;
+import com.resilience.spring.repository.AccountRepository;
 import com.resilience.spring.repository.BankEmployeeRepository;
+import com.resilience.spring.repository.CustomerRepository;
+import com.resilience.spring.repository.TransactionRepository;
 
 @RestController
-@RequestMapping("/bankEmployee")
+@RequestMapping("/bankemployee")
 public class BankEmployeeController {
 
 	@Autowired
@@ -28,35 +31,32 @@ public class BankEmployeeController {
 		return ResponseEntity.ok(bankEmployeeRepository.findAll());
 	}
 
-	@PostMapping(path = "/save", 
-			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, 
-			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/save", produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> saveEmployee(@RequestBody BankEmployee bankEmployee) {
 		boolean empExists = bankEmployeeRepository.findByEmail(bankEmployee.getEmail()) != null ? true : false;
 		if (!empExists) {
 			bankEmployeeRepository.save(bankEmployee);
 			return ResponseEntity.ok("Employee saved with mail id " + bankEmployee.getEmail() + " and emp id is :"
 					+ bankEmployee.getEmployee_id());
-			
+
 		} else {
 			return ResponseEntity.ok("Employee exists with mail " + bankEmployee.getEmail());
 		}
 	}
 
-	@PutMapping(path = "/update", 
-			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, 
-			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Optional<BankEmployee>> updateBankEmployee(@RequestBody BankEmployee bankEmployee) {
-		Optional<BankEmployee> currentEmployee = bankEmployeeRepository.findById(bankEmployee.getEmployee_id());
-		currentEmployee.get().setDistrict(bankEmployee.getDistrict());
-		currentEmployee.get().setEmail(bankEmployee.getEmail());
-		currentEmployee.get().setHouse_no(bankEmployee.getHouse_no());
-		currentEmployee.get().setPassword(bankEmployee.getPassword());
-		currentEmployee.get().setMobile_no(bankEmployee.getMobile_no());
-		currentEmployee.get().setState(bankEmployee.getState());
-		currentEmployee.get().setStreet(bankEmployee.getStreet());
+	@PutMapping(path = "/update", produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> updateBankEmployee(@RequestBody BankEmployee bankEmployee) {
+//		Optional<BankEmployee> currentEmployee = bankEmployeeRepository.findById(bankEmployee.getEmployee_id());
+//		currentEmployee.get().setDistrict(bankEmployee.getDistrict());
+//		currentEmployee.get().setEmail(bankEmployee.getEmail());
+//		currentEmployee.get().setHouse_no(bankEmployee.getHouse_no());
+//		currentEmployee.get().setPassword(bankEmployee.getPassword());
+//		currentEmployee.get().setMobile_no(bankEmployee.getMobile_no());
+//		currentEmployee.get().setState(bankEmployee.getState());
+//		currentEmployee.get().setStreet(bankEmployee.getStreet());
 
-		return ResponseEntity.ok(currentEmployee);
+		bankEmployeeRepository.save(bankEmployee);
+		return ResponseEntity.ok("Employee data succesfully updated.");
 	}
 
 }

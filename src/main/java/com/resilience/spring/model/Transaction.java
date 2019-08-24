@@ -43,7 +43,7 @@ public class Transaction {
 	private Customer customer;
 
 	@ManyToOne
-	@JoinColumn(name = "transaction_type")
+	@JoinColumn(name = "transaction_type_id")
 	private TransactionType transaction_type;
 
 	@NotNull
@@ -73,14 +73,17 @@ public class Transaction {
 	}
 
 	public Transaction(@NotNull int transaction_id, Customer customer, TransactionType transaction_type,
-			@NotNull int from_acccount_number, int to_accounnt_number, @NotNull Date creation_date) {
+			@NotNull int from_acccount_number, int to_accounnt_number, @NotNull int amount, @NotNull Date creation_date,
+			String description) {
 		super();
 		this.transaction_id = transaction_id;
 		this.customer = customer;
 		this.transaction_type = transaction_type;
 		this.from_acccount_number = from_acccount_number;
 		this.to_accounnt_number = to_accounnt_number;
+		this.amount = amount;
 		this.creation_date = creation_date;
+		this.description = description;
 	}
 
 	public int getTransaction_id() {
