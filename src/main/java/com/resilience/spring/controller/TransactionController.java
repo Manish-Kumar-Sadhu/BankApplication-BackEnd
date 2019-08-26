@@ -70,6 +70,11 @@ public class TransactionController {
 		if(from_account.get().getBalance() >= amount)
 		{
 			from_account.get().setBalance(from_account.get().getBalance()-amount);
+			
+			if(from_account.get().getBalance() < 5000)
+			{
+				return ResponseEntity.ok("Insufficient Balance. Minimum balance of 5000 should be maintained.");
+			}
 			to_account.get().setBalance(to_account.get().getBalance()+amount);
 			
 			Optional<Customer> currentCustomer=cr.findById(customer_id);
@@ -110,5 +115,12 @@ public class TransactionController {
 		} else {
 			return ResponseEntity.ok("Unauthorisd user");
 		}
+	}
+	
+	//not tested
+	@GetMapping(path = "/flagedtransaction", 
+			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Transaction>> getAllFlaggedTransactions() {
+		return ResponseEntity.ok(tr.findAllFlagged());
 	}
 }

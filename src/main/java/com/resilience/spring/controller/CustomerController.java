@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.resilience.spring.email.MessageController;
 import com.resilience.spring.model.Customer;
 import com.resilience.spring.repository.CustomerRepository;
 
@@ -27,7 +28,8 @@ public class CustomerController {
 	@Autowired
 	CustomerRepository cr;
 	
-	//MessageController mc = new MessageController();
+	@Autowired
+	MessageController mc;
 			
 	//Pageable firstPageWithTwoElements = PageRequest.of(0, 2);
 
@@ -119,8 +121,9 @@ public class CustomerController {
 		currentcustomer.get().setCustomer_status(1);
 		cr.save(currentcustomer.get());
 		
-//		mc.sendMail("prakharkhandelwal11@gmail.com", "Welcome to Business Bank", 
-//				"You have successfully registered with the Business Bank. Your customer id is " + currentcustomer.get().getCustomer_id());
+		mc.sendMail(currentcustomer.get().getEmail(), "Welcome to Business Bank", 
+				"You have successfully registered with the Business Bank. "
+				+ "Your customer id is " + currentcustomer.get().getCustomer_id());
 
 		return ResponseEntity.ok("Customer status activated");
 		}
