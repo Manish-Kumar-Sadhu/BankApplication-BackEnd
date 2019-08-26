@@ -39,7 +39,7 @@ public class AccountController {
 	@GetMapping(path = "/find/{no}", produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Account> findAccount(@PathVariable("no") int no) {
 		Optional<Account> o = ar.findByAccountId(no);
-
+		
 		if (o.isPresent()) {
 			return ResponseEntity.ok(o.get());
 		} else {
@@ -137,4 +137,12 @@ public class AccountController {
 	public ResponseEntity<List<Account>> getInactiveAccountList() {
 		return ResponseEntity.ok(ar.findInactiveAccounts());
 	}
+	
+	@GetMapping(path = "/activeaccountlist", 
+			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Account>> getActiveAccountList() {
+		return ResponseEntity.ok(ar.findInactiveAccounts());
+	}
 }
+
+

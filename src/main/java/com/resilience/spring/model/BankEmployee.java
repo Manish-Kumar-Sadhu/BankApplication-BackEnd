@@ -83,7 +83,7 @@ public class BankEmployee {
 
 	@NotNull
 	@Column(unique = true)
-	private long aadhar_card;
+	private long aadhaar_card;
 
 	@Column(unique = true)
 	private String passport;
@@ -107,7 +107,7 @@ public class BankEmployee {
 	public BankEmployee(@NotNull int employee_id, @NotNull String first_name, @NotNull String last_name,
 			@NotNull String email, @NotNull long mobile_no, String house_no, String street, String district,
 			String state, @NotNull String pan_card, @NotNull Date creation_date, @NotNull String password,
-			@NotNull long aadhar_card, String passport, @NotNull Date job_start_date, @NotNull short employee_status,
+			@NotNull long aadhaar_card, String passport, @NotNull Date job_start_date, @NotNull short employee_status,
 			@NotNull String employee_role) {
 		super();
 		this.employee_id = employee_id;
@@ -122,7 +122,7 @@ public class BankEmployee {
 		this.pan_card = pan_card;
 		this.creation_date = creation_date;
 		this.password = password;
-		this.aadhar_card = aadhar_card;
+		this.aadhaar_card = aadhaar_card;
 		this.passport = passport;
 		this.job_start_date = job_start_date;
 		this.employee_status = employee_status;
@@ -225,12 +225,12 @@ public class BankEmployee {
 		this.password = password;
 	}
 
-	public long getAadhar_card() {
-		return aadhar_card;
+	public long getAadhaar_card() {
+		return aadhaar_card;
 	}
 
-	public void setAadhar_card(long aadhar_card) {
-		this.aadhar_card = aadhar_card;
+	public void setAadhaar_card(long aadhar_card) {
+		this.aadhaar_card = aadhar_card;
 	}
 
 	public String getPassport() {

@@ -31,7 +31,7 @@ public class CustomerController {
 	@Autowired
 	MessageController mc;
 			
-	//Pageable firstPageWithTwoElements = PageRequest.of(0, 2);
+
 
 //	@Autowired
 //	AccountRepository accountRepository;
@@ -53,6 +53,7 @@ public class CustomerController {
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> saveCustomer(@RequestBody Customer customer)
 	{
+
 //		if(cr.existsById(customer.getCustomer_id()))
 //		{
 //			return ResponseEntity.ok("Customer exists with id "+ customer.getCustomer_id());
