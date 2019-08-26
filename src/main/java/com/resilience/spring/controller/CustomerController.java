@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.resilience.spring.model.Account;
+
 import com.resilience.spring.model.Customer;
 import com.resilience.spring.repository.AccountRepository;
 import com.resilience.spring.repository.CustomerRepository;
@@ -28,6 +30,12 @@ public class CustomerController {
 	
 	@Autowired
 	AccountRepository accountRepository;
+	
+
+	
+	@Autowired(required=true)
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	
 	@GetMapping(path="/find/{id}",
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
@@ -47,14 +55,17 @@ public class CustomerController {
 	@PostMapping(path="/save", 
 			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	
 	public ResponseEntity<String> saveCustomer(@RequestBody Customer customer)
 	{
+		String encodedPassword = bCryptPasswordEncoder.encode(customer.getPassword());
 		if(cr.existsById(customer.getCustomer_id()))
 		{
 			return ResponseEntity.ok("Customer exists with id "+ customer.getCustomer_id());
 		}
 		else
 		{
+			customer.setPassword(encodedPassword);
 			cr.save(customer);
 			return ResponseEntity.ok("Customer saved with id "+ customer.getCustomer_id());
 		}
