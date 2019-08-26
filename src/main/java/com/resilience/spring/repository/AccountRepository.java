@@ -21,7 +21,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 	public List<Account> findInactiveAccounts();
 	
 	@Query("select a from Account a where a.account_no = :no and a.account_status = 1")
-	public Optional<Account> findById(int no);
+	public Optional<Account> findByAccountId(int no);
 	
 	@Query("select a from Account a where a.account_status = 1")
 	public List<Account> findAll();

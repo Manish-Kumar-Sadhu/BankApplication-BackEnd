@@ -14,7 +14,7 @@ import com.resilience.spring.model.AccountType;
 import com.resilience.spring.repository.AccountTypeRepository;
 
 @RestController
-@RequestMapping("/accountType")
+@RequestMapping("/accounttype")
 public class AccountTypeController {
 
 	@Autowired

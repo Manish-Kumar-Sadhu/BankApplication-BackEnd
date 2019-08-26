@@ -60,8 +60,8 @@ public class TransactionController {
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> newTransaction(@RequestBody Transaction transaction,@PathVariable("id")int customer_id)
 	{
-		int fromAccount = transaction.getFrom_acccount_number();
-		int toAccount = transaction.getTo_accounnt_number();
+		int fromAccount = transaction.getFrom_account_number();
+		int toAccount = transaction.getTo_account_number();
 		int amount = transaction.getAmount();
 		
 		Optional<Account> from_account = ar.findById(fromAccount);
@@ -85,12 +85,30 @@ public class TransactionController {
 		
 	}
 	
-	//@SuppressWarnings("unchecked")
-	@GetMapping(path="/list/{customer_id}",
+//	@SuppressWarnings("unchecked")
+//	@GetMapping(path="/list/{customer_id}",
+//			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<Set<Transaction>> getTransactionsOfCustomer(@PathVariable("customer_id") int customer_id)
+//	{
+//		//cr.findById(customer_id).get().getTransactions();
+//		//return (ResponseEntity<Set<Transaction>>) cr.findById(customer_id).get().getTransactions();
+//	}
+	
+	//we will not show this transaction in receivers account list
+	@GetMapping(path = "/list/{customer_id}", 
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Set<Transaction>> getTransactionsOfCustomer(@PathVariable("customer_id") int customer_id)
-	{
-		//cr.findById(customer_id).get().getTransactions();
-		return (ResponseEntity<Set<Transaction>>) cr.findById(customer_id).get().getTransactions();
+	public ResponseEntity getTransactionsOfCustomer(@PathVariable("customer_id") int customer_id) {
+
+		if (cr.findById(customer_id) != null) {
+
+			if (tr.findTransactionsByCustomerId(customer_id) != null) {
+				return ResponseEntity.ok(tr.findTransactionsByCustomerId(customer_id));
+			} else {
+				return ResponseEntity.ok("No transactionss found");
+			}
+
+		} else {
+			return ResponseEntity.ok("Unauthorisd user");
+		}
 	}
 }

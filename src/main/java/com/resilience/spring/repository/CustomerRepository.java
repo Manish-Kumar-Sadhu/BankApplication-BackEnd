@@ -14,8 +14,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
 	@Query("select c from Customer c where c.email = :email and c.customer_status = 1")
 	public Customer findByEmail(@Param("email") String email);
-	
-	@Query("select c.customer_id, c.first_name, c.last_name, c.email, c.mobile_no from Customer c where c.customer_status = 0")
+
+	//.customer_id, c.first_name, c.last_name, c.email, c.mobile_no
+	@Query("select c from Customer c where c.customer_status = 0")
 	public List<Customer> findInactiveCustomers();
 
 	

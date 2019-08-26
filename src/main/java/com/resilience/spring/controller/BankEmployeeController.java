@@ -26,6 +26,10 @@ public class BankEmployeeController {
 	@Autowired
 	BankEmployeeRepository bankEmployeeRepository;
 
+	
+	//no functionality of active or inactive yet
+	
+	
 	@GetMapping(path = "/list", produces = "application/json")
 	public ResponseEntity<List<BankEmployee>> getEmpList() {
 		return ResponseEntity.ok(bankEmployeeRepository.findAll());
@@ -46,14 +50,14 @@ public class BankEmployeeController {
 
 	@PutMapping(path = "/update", produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> updateBankEmployee(@RequestBody BankEmployee bankEmployee) {
-//		Optional<BankEmployee> currentEmployee = bankEmployeeRepository.findById(bankEmployee.getEmployee_id());
-//		currentEmployee.get().setDistrict(bankEmployee.getDistrict());
-//		currentEmployee.get().setEmail(bankEmployee.getEmail());
-//		currentEmployee.get().setHouse_no(bankEmployee.getHouse_no());
-//		currentEmployee.get().setPassword(bankEmployee.getPassword());
-//		currentEmployee.get().setMobile_no(bankEmployee.getMobile_no());
-//		currentEmployee.get().setState(bankEmployee.getState());
-//		currentEmployee.get().setStreet(bankEmployee.getStreet());
+		Optional<BankEmployee> currentEmployee = bankEmployeeRepository.findById(bankEmployee.getEmployee_id());
+		currentEmployee.get().setDistrict(bankEmployee.getDistrict());
+		currentEmployee.get().setEmail(bankEmployee.getEmail());
+		currentEmployee.get().setHouse_no(bankEmployee.getHouse_no());
+		currentEmployee.get().setPassword(bankEmployee.getPassword());
+		currentEmployee.get().setMobile_no(bankEmployee.getMobile_no());
+		currentEmployee.get().setState(bankEmployee.getState());
+		currentEmployee.get().setStreet(bankEmployee.getStreet());
 
 		bankEmployeeRepository.save(bankEmployee);
 		return ResponseEntity.ok("Employee data succesfully updated.");

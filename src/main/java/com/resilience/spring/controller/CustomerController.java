@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.resilience.spring.email.MessageController;
 import com.resilience.spring.model.Customer;
 import com.resilience.spring.repository.CustomerRepository;
 
@@ -25,7 +24,7 @@ public class CustomerController {
 	@Autowired
 	CustomerRepository cr;
 	
-//	MessageController mc = new MessageController();
+	//MessageController mc = new MessageController();
 			
 	
 
@@ -75,14 +74,14 @@ public class CustomerController {
 			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, 
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> updateCustomer(@RequestBody Customer customer) {
-//		Optional<Customer> currentcustomer=cr.findById(customer.getCustomer_id());
-//		currentcustomer.get().setDistrict(customer.getDistrict());
-//		currentcustomer.get().setEmail(customer.getEmail());
-//		currentcustomer.get().setHouse_no(customer.getHouse_no());
-//		currentcustomer.get().setPassword(customer.getPassword());
-//		currentcustomer.get().setMobile_no(customer.getMobile_no());
-//		currentcustomer.get().setState(customer.getState());
-//		currentcustomer.get().setStreet(customer.getStreet());
+		Optional<Customer> currentcustomer=cr.findById(customer.getCustomer_id());
+		currentcustomer.get().setDistrict(customer.getDistrict());
+		currentcustomer.get().setEmail(customer.getEmail());
+		currentcustomer.get().setHouse_no(customer.getHouse_no());
+		//currentcustomer.get().setPassword(customer.getPassword());
+		currentcustomer.get().setMobile_no(customer.getMobile_no());
+		currentcustomer.get().setState(customer.getState());
+		currentcustomer.get().setStreet(customer.getStreet());
 		cr.save(customer);
 		return ResponseEntity.ok("Customer updated with id: " + customer.getCustomer_id());
 	}
@@ -109,9 +108,21 @@ public class CustomerController {
 	@PutMapping(path = "/activate/{id}", 
 			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> activateCustomer(@PathVariable("id") int id) {
+		if(cr.existsById(id))
+		{
 		Optional<Customer> currentcustomer = cr.findById(id);
 		currentcustomer.get().setCustomer_status(1);
+		cr.save(currentcustomer.get());
+		
+//		mc.sendMail("prakharkhandelwal11@gmail.com", "Welcome to Business Bank", 
+//				"You have successfully registered with the Business Bank. Your customer id is " + currentcustomer.get().getCustomer_id());
+
 		return ResponseEntity.ok("Customer status activated");
+		}
+		else
+		{
+			return ResponseEntity.ok("Customer does not exist with id " + id);
+		}
 	}
 	
 

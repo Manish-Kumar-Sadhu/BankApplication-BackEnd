@@ -106,7 +106,7 @@ public class Customer {
 	private String pan_card;
 
 	@Column(unique = true, columnDefinition = "varchar(10) default 'NA'")
-	private String passport;
+	private String passport = "NA";
 
 
 	@JsonIgnore
