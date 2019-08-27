@@ -68,8 +68,8 @@ public class LoginController {
 	
 	@PutMapping(path="/updatepassword", 
 			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity updatePassword(@RequestBody Login log)
+			produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> updatePassword(@RequestBody Login log)
 	{
 		String check = log.getType();
 		if (check.equals("customer"))
@@ -78,7 +78,7 @@ public class LoginController {
 			
 				cust.setPassword(log.getPassword());
 				cr.save(cust);
-				return ResponseEntity.ok(cust);
+				return ResponseEntity.ok("Password Updated Successfully");
 			
 		}
 		else if(check.equals("bank"))
@@ -87,7 +87,7 @@ public class LoginController {
 			
 				emp.setPassword(log.getPassword());
 				ber.save(emp);
-				return ResponseEntity.ok(emp);
+				return ResponseEntity.ok("Password Updated Successfully");
 			
 		}
 		else

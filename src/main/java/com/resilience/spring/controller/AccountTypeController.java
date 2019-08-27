@@ -14,20 +14,21 @@ import com.resilience.spring.model.AccountType;
 import com.resilience.spring.repository.AccountTypeRepository;
 
 @RestController
-@RequestMapping("/accountType")
+@RequestMapping("/accounttype")
 public class AccountTypeController {
 
 	@Autowired
 	AccountTypeRepository atr;
 	
-	@GetMapping(path="/list" ,produces="application/json")
+	@GetMapping(path="/list" ,
+			produces=org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AccountType>> getAccountTypes(){
 		return ResponseEntity.ok(atr.findAll());
 	}
 	
 	@GetMapping(path="/find/{id}",
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity findCustomer(@PathVariable("id")int id)
+	public ResponseEntity findAccountType(@PathVariable("id")int id)
 	{
 		Optional<AccountType> o =atr.findById(id);
 		if(o.isPresent())

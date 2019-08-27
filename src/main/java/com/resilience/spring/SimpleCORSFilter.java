@@ -21,7 +21,7 @@ public class SimpleCORSFilter implements Filter {
 		responseToUse.setHeader("Access-Control-Allow-Origin", "*");
 		responseToUse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,PATCH,DELETE");
 		responseToUse.setHeader("Access-Control-Allow-Headers",
-				"Origin,X-Requested-With,Content-Type,Accept,x-auth,value");
+				"Origin,X-Requested-With,Content-Type,Accept,x-auth,value , Response-Type");
 		chain.doFilter(requestToUse, responseToUse);
 	}
 

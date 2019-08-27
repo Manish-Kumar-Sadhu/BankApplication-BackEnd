@@ -1,9 +1,8 @@
 package com.resilience.spring.model;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,9 +17,11 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Table
 @Entity
+@JsonIgnoreProperties
 public class Account {
 
 	@Id
@@ -34,14 +35,14 @@ public class Account {
 	@JsonIgnore
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
-	
+
 //	@NotNull
 //	@Column
 //	private int customer_id;
-	
+
 	@Column(columnDefinition = "integer default 10000")
 	@NotNull
-	private int balance=10000;
+	private int balance = 10000;
 
 	@Transient
 	@JsonIgnore
@@ -51,15 +52,13 @@ public class Account {
 	@JsonIgnore
 	Calendar cal = Calendar.getInstance();
 
-	
-
 	@Column
 	private Date creation_date = new Date(cal.getTimeInMillis());
-
-	@ManyToOne
+	
 	@JsonIgnore
+	@ManyToOne
 	@JoinColumn(name = "account_type_id")
-	private AccountType accountType;
+	private AccountType account_type_id;
 
 	@NotNull
 	@Column(columnDefinition = "integer default 0")
@@ -76,7 +75,7 @@ public class Account {
 		this.customer = customer;
 		this.balance = balance;
 		this.creation_date = creation_date;
-		this.accountType = accountType;
+		this.account_type_id = accountType;
 		this.account_status = account_status;
 	}
 
@@ -112,12 +111,12 @@ public class Account {
 		this.creation_date = creation_date;
 	}
 
-	public AccountType getAccountType() {
-		return accountType;
+	public AccountType getAccount_type_id() {
+		return account_type_id;
 	}
 
 	public void setAccountType(AccountType accountType) {
-		this.accountType = accountType;
+		this.account_type_id = accountType;
 	}
 
 	public int getAccount_status() {
@@ -136,5 +135,4 @@ public class Account {
 //		this.customer_id = customer_id;
 //	}
 
-	
 }

@@ -14,23 +14,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.resilience.spring.model.BankEmployee;
 import com.resilience.spring.model.Customer;
+import com.resilience.spring.repository.AccountRepository;
 import com.resilience.spring.repository.BankEmployeeRepository;
+import com.resilience.spring.repository.CustomerRepository;
+import com.resilience.spring.repository.TransactionRepository;
 
 @RestController
-@RequestMapping("/bankEmployee")
+@RequestMapping("/bankemployee")
 public class BankEmployeeController {
 
 	@Autowired
 	BankEmployeeRepository bankEmployeeRepository;
 
+	
+	//no functionality of active or inactive yet
+	
+	
 	@GetMapping(path = "/list", produces = "application/json")
 	public ResponseEntity<List<BankEmployee>> getEmpList() {
 		return ResponseEntity.ok(bankEmployeeRepository.findAll());
 	}
 
-	@PostMapping(path = "/save", 
-			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, 
-			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/save", produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> saveEmployee(@RequestBody BankEmployee bankEmployee) {
 		boolean empExists = bankEmployeeRepository.findByEmail(bankEmployee.getEmail()) != null ? true : false;
 		
@@ -39,16 +44,14 @@ public class BankEmployeeController {
 			bankEmployeeRepository.save(bankEmployee);
 			return ResponseEntity.ok("Employee saved with mail id " + bankEmployee.getEmail() + " and emp id is :"
 					+ bankEmployee.getEmployee_id());
-			
+
 		} else {
 			return ResponseEntity.ok("Employee exists with mail " + bankEmployee.getEmail());
 		}
 	}
 
-	@PutMapping(path = "/update", 
-			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, 
-			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Optional<BankEmployee>> updateBankEmployee(@RequestBody BankEmployee bankEmployee) {
+	@PutMapping(path = "/update", produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> updateBankEmployee(@RequestBody BankEmployee bankEmployee) {
 		Optional<BankEmployee> currentEmployee = bankEmployeeRepository.findById(bankEmployee.getEmployee_id());
 		currentEmployee.get().setDistrict(bankEmployee.getDistrict());
 		currentEmployee.get().setEmail(bankEmployee.getEmail());
@@ -58,7 +61,8 @@ public class BankEmployeeController {
 		currentEmployee.get().setState(bankEmployee.getState());
 		currentEmployee.get().setStreet(bankEmployee.getStreet());
 
-		return ResponseEntity.ok(currentEmployee);
+		bankEmployeeRepository.save(bankEmployee);
+		return ResponseEntity.ok("Employee data succesfully updated.");
 	}
 
 }
