@@ -33,6 +33,8 @@ public class BankEmployeeController {
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> saveEmployee(@RequestBody BankEmployee bankEmployee) {
 		boolean empExists = bankEmployeeRepository.findByEmail(bankEmployee.getEmail()) != null ? true : false;
+		
+		
 		if (!empExists) {
 			bankEmployeeRepository.save(bankEmployee);
 			return ResponseEntity.ok("Employee saved with mail id " + bankEmployee.getEmail() + " and emp id is :"

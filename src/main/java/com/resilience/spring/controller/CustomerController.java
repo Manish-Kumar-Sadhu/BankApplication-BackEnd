@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-
+import org.springframework.web.servlet.ModelAndView;
 import com.resilience.spring.model.Customer;
 import com.resilience.spring.repository.AccountRepository;
 import com.resilience.spring.repository.CustomerRepository;
+import com.resilience.spring.validator.CustomerValidator;
 
 @RestController
 @RequestMapping("/customer")
@@ -31,10 +31,17 @@ public class CustomerController {
 	@Autowired
 	AccountRepository accountRepository;
 	
-
+	@Autowired
+	private CustomerValidator rvalidator;
 	
-	@Autowired(required=true)
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	private CustomerRepository cRepo;
+	
+	private Customer temp_obj = new Customer();
+	
+	//@Autowired(required=true)
+	//private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	
 	@GetMapping(path="/find/{id}",
@@ -56,16 +63,65 @@ public class CustomerController {
 			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	
-	public ResponseEntity<String> saveCustomer(@RequestBody Customer customer)
+	public ResponseEntity<String> saveCustomer(@RequestBody Customer customer, Errors error)
 	{
-		String encodedPassword = bCryptPasswordEncoder.encode(customer.getPassword());
-		if(cr.existsById(customer.getCustomer_id()))
+		//String encodedPassword = bCryptPasswordEncoder.encode(customer.getPassword());
+		
+		rvalidator.validate(customer, error);
+		
+		String myEmail = customer.getEmail();
+		int count = cRepo.countUsersWithEmail(myEmail);	
+		
+		int myAadhar = customer.getAadhaar_card();
+		int count1 = cRepo.countUsersWithAadhar(myAadhar);	
+		
+		String myPan = customer.getPan_card();
+		int count2 = cRepo.countUsersWithPan(myPan);
+		
+		String mypassport = customer.getPan_card();
+		int count3 = cRepo.countUsersWithpassport(mypassport);
+		
+
+		long mynumber = customer.getMobile_no();
+		int count4 = cRepo.countUsersWithNumber(mynumber);
+		
+		if(count!=0) {
+
+			System.out.println("Customer exists with this mailId");
+			return ResponseEntity.ok("Customer exists with this mailId");
+		}
+		else if(count1!=0) {
+
+			System.out.println("Customer with this Aadhaar_number already exists");
+			return ResponseEntity.ok("Customer with this Aadhaar_number already exists");
+		}
+		else if(count2!=0) {
+
+			System.out.println("Customer with this pan_number already exists");
+			return ResponseEntity.ok("Customer with this pan_number already exists");
+		}
+		else if(count3!=0) {
+
+			System.out.println("Customer with this passort_number already exists");
+			return ResponseEntity.ok("Customer with this passort_number already exists");
+		}
+		else if(count4!=0) {
+
+			System.out.println("Mobile number already exists");
+			return ResponseEntity.ok("Mobile number already exists");
+		}
+		else if(error.hasErrors()) {
+			
+			System.out.println("invalid number");
+			return ResponseEntity.ok("inavalid mobile number, Enter valid number....");
+		}
+		else if(cr.existsById(customer.getCustomer_id()))
 		{
 			return ResponseEntity.ok("Customer exists with id "+ customer.getCustomer_id());
 		}
 		else
 		{
-			customer.setPassword(encodedPassword);
+			//customer.setPassword(encodedPassword);
 			cr.save(customer);
 			return ResponseEntity.ok("Customer saved with id "+ customer.getCustomer_id());
 		}
