@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.resilience.spring.email.AccountActivationEmail;
+import com.resilience.spring.email.TransactionEmail;
+import com.resilience.spring.email.TransactionEmailController;
 import com.resilience.spring.model.Account;
 import com.resilience.spring.model.Customer;
 import com.resilience.spring.model.Transaction;
@@ -34,6 +39,9 @@ public class TransactionController {
 	
 	@Autowired
 	AccountRepository ar;
+	
+	@Autowired
+	TransactionEmailController tec;
 	
 	@GetMapping(path="/find/{id}",
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
@@ -58,7 +66,7 @@ public class TransactionController {
 	@PostMapping(path="/new/{id}",
 			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE,
 			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> newTransaction(@RequestBody Transaction transaction,@PathVariable("id")int customer_id)
+	public ResponseEntity<String> newTransaction(@RequestBody Transaction transaction,@PathVariable("id")int customer_id) throws MessagingException
 	{
 		int fromAccount = transaction.getFrom_account_number();
 		int toAccount = transaction.getTo_account_number();
@@ -80,6 +88,10 @@ public class TransactionController {
 			Optional<Customer> currentCustomer=cr.findById(customer_id);
 			transaction.setCustomer(currentCustomer.get());
 			tr.save(transaction);
+			
+			TransactionEmail.to = transaction.getCustomer().getEmail();
+			TransactionEmail.subject = "Iron Bank Of Braavos|New Transaction|TNo: "+transaction.getTransaction_id()+"|Amount: "+transaction.getAmount();
+			tec.sendMail();
 			
 			return ResponseEntity.ok("Transaction successfully completed");
 		}
@@ -117,7 +129,6 @@ public class TransactionController {
 		}
 	}
 	
-	//not tested
 	@GetMapping(path = "/flagedtransaction", 
 			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Transaction>> getAllFlaggedTransactions() {

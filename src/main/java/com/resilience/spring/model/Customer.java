@@ -51,7 +51,6 @@ public class Customer {
 	@Column
 	private String password;
 
-
 	@Column(columnDefinition = "integer default 0")
 	private int customer_status;
 
@@ -91,10 +90,7 @@ public class Customer {
 	@JsonIgnore
 	Calendar cal = Calendar.getInstance();
 
-
 	@Column
-	// Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-	// private String creation_date = sdf.format(new Date(cal.getTimeInMillis()));
 	private Date creation_date = new Date(cal.getTimeInMillis());
 
 	@NotNull
@@ -104,11 +100,6 @@ public class Customer {
 	@NotNull
 	@Column(unique = true)
 	private String pan_card;
-
-	@Column(unique = true)
-	private String passport;
-
-
 	@JsonIgnore
 	@Column(columnDefinition = "varchar(255) default 'CUST'")
 	private String role = "CUST";
@@ -121,7 +112,7 @@ public class Customer {
 			@NotNull String password, @NotNull int customer_status, @NotNull String first_name,
 			@NotNull String last_name, @NotNull String email, @NotNull long mobile_no, String house_no, String street,
 			String district, String state, @NotNull Date creation_date, @NotNull long aadhaar_card,
-			@NotNull String pan_card, String passport, @NotNull String role) {
+			@NotNull String pan_card, @NotNull String role) {
 		super();
 		this.customer_id = customer_id;
 		this.accounts = accounts;
@@ -139,7 +130,6 @@ public class Customer {
 		this.creation_date = creation_date;
 		this.aadhaar_card = aadhaar_card;
 		this.pan_card = pan_card;
-		this.passport = passport;
 		this.role = role;
 	}
 
@@ -261,14 +251,6 @@ public class Customer {
 
 	public void setPan_card(String pan_card) {
 		this.pan_card = pan_card;
-	}
-
-	public String getPassport() {
-		return passport;
-	}
-
-	public void setPassport(String passport) {
-		this.passport = passport;
 	}
 
 	public String getRole() {

@@ -27,8 +27,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	@Query("SELECT count(u) FROM Customer u WHERE u.pan_card=?1")
 	int countUsersWithPan(String myPan);
 
-	@Query("SELECT count(u) FROM Customer u WHERE u.passport=?1")
-	int countUsersWithpassport(String mypassport);
+//	@Query("SELECT count(u) FROM Customer u WHERE u.passport=?1")
+//	int countUsersWithpassport(String mypassport);
 
 	@Query("SELECT count(u) FROM Customer u WHERE u.mobile_no=?1")
 	int countUsersWithNumber(long mynumber);
