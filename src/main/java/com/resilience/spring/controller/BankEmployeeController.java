@@ -1,5 +1,8 @@
 package com.resilience.spring.controller;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +41,23 @@ public class BankEmployeeController {
 	@PostMapping(path = "/save", produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> saveEmployee(@RequestBody BankEmployee bankEmployee) {
 		boolean empExists = bankEmployeeRepository.findByEmail(bankEmployee.getEmail()) != null ? true : false;
+		
+		
+		try {
+		    String password = bankEmployee.getPassword();
+		    //System.out.println(password);
+		    MessageDigest md = MessageDigest.getInstance("MD5"); 
+	        byte[] messageDigest = md.digest(password.getBytes()); 
+	        BigInteger no = new BigInteger(1, messageDigest); 
+	        String hashtext = no.toString(16); 
+	        while (hashtext.length() < 32) { 
+	            hashtext = "0" + hashtext;  
+	        } 
+	        bankEmployee.setPassword(hashtext);
+	      
+	        } catch (NoSuchAlgorithmException e) { 
+		            throw new RuntimeException(e); 
+		        } 
 		
 		
 		if (!empExists) {

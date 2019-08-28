@@ -1,5 +1,9 @@
 package com.resilience.spring.controller;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +29,9 @@ public class LoginController {
 	@Autowired
 	BankEmployeeRepository ber;
 	
+	private String customerpassword;
+	private String employeepassword;
+	
 	@PostMapping(path="/login", 
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,11 +40,26 @@ public class LoginController {
 		String check = log.getType();
 		if (check.equals("customer"))
 		{
+			
 			Customer cust = cr.findByEmail(log.getEmail());
 			String mail=cust.getEmail();
 			String pass=cust.getPassword();
+			String fpass=log.getPassword();
 			
-			if (mail.equals(log.getEmail()) && pass.equals(log.getPassword()))
+			try {
+			MessageDigest md = MessageDigest.getInstance("MD5"); 
+	        byte[] messageDigest = md.digest(fpass.getBytes()); 
+	        BigInteger no = new BigInteger(1, messageDigest); 
+	        String hashtext = no.toString(16); 
+	        while (hashtext.length() < 32) { 
+	            hashtext = "0" + hashtext;  
+	        } 
+	        customerpassword=hashtext;
+			} catch (NoSuchAlgorithmException e) { 
+		            throw new RuntimeException(e); 
+		        } 
+			
+			if (mail.equals(log.getEmail()) && pass.equals(customerpassword))
 			{
 				return ResponseEntity.ok(cust);
 			}
@@ -51,8 +73,23 @@ public class LoginController {
 			BankEmployee emp = ber.findByEmail(log.getEmail());
 			String mail=emp.getEmail();
 			String pass=emp.getPassword();
+			String epass=log.getPassword();
 			
-			if (mail.equals(log.getEmail()) && pass.equals(log.getPassword()))
+			
+			try {
+				MessageDigest md = MessageDigest.getInstance("MD5"); 
+		        byte[] messageDigest = md.digest(epass.getBytes()); 
+		        BigInteger no = new BigInteger(1, messageDigest); 
+		        String hashtext = no.toString(16); 
+		        while (hashtext.length() < 32) { 
+		            hashtext = "0" + hashtext;  
+		        } 
+		        employeepassword=hashtext;
+				} catch (NoSuchAlgorithmException e) { 
+			            throw new RuntimeException(e); 
+			        } 
+			
+			if (mail.equals(log.getEmail()) && pass.equals(employeepassword))
 			{
 				return ResponseEntity.ok(emp);
 			}

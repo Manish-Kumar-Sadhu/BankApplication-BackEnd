@@ -1,7 +1,16 @@
 package com.resilience.spring.controller;
 
+
+
+
+
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,10 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 import com.resilience.spring.email.MessageController;
-
 import com.resilience.spring.model.Customer;
 import com.resilience.spring.repository.AccountRepository;
 import com.resilience.spring.repository.CustomerRepository;
@@ -51,8 +57,6 @@ public class CustomerController {
 	
 	@Autowired
 	MessageController mc;
-			
-
 
 //	@Autowired
 //	AccountRepository accountRepository;
@@ -79,6 +83,21 @@ public class CustomerController {
 
 		//String encodedPassword = bCryptPasswordEncoder.encode(customer.getPassword());
 		
+		 try {
+	    String password = customer.getPassword();
+	    //System.out.println(password);
+	    MessageDigest md = MessageDigest.getInstance("MD5"); 
+        byte[] messageDigest = md.digest(password.getBytes()); 
+        BigInteger no = new BigInteger(1, messageDigest); 
+        String hashtext = no.toString(16); 
+        while (hashtext.length() < 32) { 
+            hashtext = "0" + hashtext;  
+        } 
+        customer.setPassword(hashtext);
+      
+        } catch (NoSuchAlgorithmException e) { 
+	            throw new RuntimeException(e); 
+	        } 
 		rvalidator.validate(customer, error);
 		
 		String myEmail = customer.getEmail();
