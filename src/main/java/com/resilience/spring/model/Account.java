@@ -55,7 +55,7 @@ public class Account {
 	@Column
 	private Date creation_date = new Date(cal.getTimeInMillis());
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "account_type_id")
 	private AccountType account_type_id;
