@@ -66,6 +66,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					 <executable>C:\Program Files\Java\jdk1.8.0_221\bin\javac</executable>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

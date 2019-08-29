@@ -106,6 +106,7 @@ public class CustomerController {
         while (hashtext.length() < 32) { 
             hashtext = "0" + hashtext;  
         } 
+        
         customer.setPassword(hashtext);
       
         } catch (NoSuchAlgorithmException e) { 
@@ -168,6 +169,7 @@ public class CustomerController {
 
 	}
 
+
 	@GetMapping(path = "/list/{page_no}/{size}", produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<Customer>> getCustomerList(@PathVariable("page_no") int page_no,
 			@PathVariable("size") int size) {
@@ -176,7 +178,20 @@ public class CustomerController {
 		return (ResponseEntity<Page<Customer>>) ResponseEntity.ok(cr.findAll(firstPageWithTwoElements));
 	}
 
-	@PutMapping(path = "/update", produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+
+
+	@GetMapping(path = "/list", 
+			produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Customer>> getCustomerList() {
+		return ResponseEntity.ok(cr.findAll());
+		//		Pageable paging = PageRequest.of(page_no, size);
+		//		return (ResponseEntity<Page<Customer>>) ResponseEntity.ok(cr.findAll(paging));
+	}
+
+	
+	@PutMapping(path = "/update", 
+			produces = org.springframework.http.MediaType.TEXT_PLAIN_VALUE, 
+			consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> updateCustomer(@RequestBody Customer customer) {
 		Optional<Customer> currentcustomer = cr.findById(customer.getCustomer_id());
 		currentcustomer.get().setDistrict(customer.getDistrict());

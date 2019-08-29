@@ -54,6 +54,7 @@ public class LoginController {
 	        while (hashtext.length() < 32) { 
 	            hashtext = "0" + hashtext;  
 	        } 
+	        System.out.println(hashtext);
 	        customerpassword=hashtext;
 			} catch (NoSuchAlgorithmException e) { 
 		            throw new RuntimeException(e); 
